@@ -1,0 +1,41 @@
+cabal-version:      3.0
+name:               index-diachronica-redux
+version:            0.1.0.0
+synopsis:           A database of historical sound changes from the linguistics literature
+-- description:
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             Brad Neimann
+maintainer:         brad.neimann@hotmail.com
+-- copyright:
+category:           Language
+build-type:         Simple
+extra-doc-files:    CHANGELOG.md
+-- extra-source-files:
+
+common warnings
+    ghc-options: -Wall -fno-show-valid-hole-fits
+
+executable index-diachronica-redux
+    import:           warnings
+    main-is:          Main.hs
+    other-modules:    ID.Parse
+                    , ID.Schemata
+    -- other-extensions:
+    build-depends:    base ^>=4.16.4.0
+                    , aeson ^>=2.2.1
+                    , brassica ^>=0.1.1
+                    , bytestring ^>=0.11.4
+                    , cassava ^>=0.5.3
+                    , citeproc ^>=0.8.1
+                    , containers ^>=0.6.5
+                    , directory ^>=1.3.6
+                    , filepath ^>=1.4.2
+                    , lucid2 ^>=0.0.20230706
+                    , megaparsec ^>=9.2.2
+                    , mtl ^>=2.2.2
+                    , pandoc ^>=3.1.9
+                    , text ^>=1.2.5
+                    , yaml ^>=0.11.11
+    hs-source-dirs:   app
+    default-language: Haskell2010

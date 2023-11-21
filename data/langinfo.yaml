@@ -1,0 +1,18 @@
+- root: Polynesian
+  name: Proto-Polynesian
+  inventory:
+    - source: biggsHistoryPolynesianPhonology2015
+      consonants:
+        - ["*p", "*t", "*k", "*ʔ"]
+        - ["*m", "*n", "*ŋ", ""]
+        - ["*f", "*s", ""  , "*h"]
+        - ["*w", ""  , ""  , ""]
+        - [""  , "*r", ""  , ""]
+        - [""  , "*l", ""  , ""]
+      cnotes: []
+      vowels:
+        - ["*i", ""  , "*u"]
+        - ["*e", ""  , "*o"]
+        - [""  , "*a", ""  ]
+      vnotes: []
+      supras: []

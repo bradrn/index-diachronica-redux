@@ -1,0 +1,111 @@
+- source: biggsHistoryPolynesianPhonology2015
+  transcriber: bradrn
+  reviewer: Nortaneous
+  ordering: 1
+  exhaustivity: 1
+  detail: 2
+  consensus: 3
+  transcription: 3
+  conventions:
+    - sym: "*t"
+      ipa:
+        - t
+        - t̪
+      explicit: false
+      notes: []
+    - sym: "*r"
+      ipa:
+        - r
+        - ɾ
+        - ɹ
+        - ʁ
+      explicit: false
+      notes:
+        - ‘a non-lateral liquid of some kind’
+    - sym: "*w"
+      ipa:
+        - w
+        - β̞
+        - β
+      explicit: true
+      notes:
+        - ‘was probably bilabial and possibly a voiced fricative rather than a semi-vowel’
+    - sym: "*v"
+      ipa:
+        - v
+        - β
+      explicit: false
+      notes:
+        - "on p702, Rennellese is listed as having ‘b [β]’, presumably the orthographic form of *v listed for Proto–Samoic-outlier (p711)"
+    - sym: "*s"
+      ipa:
+        - s
+        - hʲ
+      explicit: true
+      notes:
+        - "‘seems likely that PPN *s was a palatalised h or s which became [h] in Tongic and [hy] at some stage in Nuclear Polynesian’"
+    - sym: "*f"
+      ipa:
+        - f
+        - ɸ
+      explicit: true
+      notes:
+        - ‘was an unvoiced fricative possibly with both labio-dental and bilabial allophones’
+    - sym: "*g"
+      ipa:
+        - ᵑɡ
+      explicit: true
+      notes:
+        - "called ‘orthographic g’ in Rennellese changes"
+        - "listed as ‘g [ŋg]’ on p702"
+    - sym: "*wˀ"
+      ipa:
+        - wˀ
+        - w̰
+        - ʔʷ
+      explicit: true
+      notes:
+        - "described as ‘glottalised w’ in Taranaki–Wanganui River New Zealand Māori"
+    - sym: "θy"
+      ipa:
+        - θj
+        - θʲ
+      explicit: false
+      notes: []
+    - sym: "č"
+      ipa:
+        - t͡ʃ
+      explicit: false
+      notes: []
+- source: davletshinSeeminglyOngoingSound2015
+  transcriber: bradrn
+  reviewer:
+  ordering: 3
+  exhaustivity: 0
+  detail: 2
+  consensus: 3
+  transcription: 2
+  conventions:
+    - sym: "*r"
+      ipa:
+        - r
+        - ʁ
+        - ɾ
+        - ɹ
+      explicit: false
+      notes: []
+- source: blustAustronesianSoundChange2004
+  transcriber: bradrn
+  reviewer:
+  ordering: 0
+  exhaustivity: 0
+  detail: 3
+  consensus: 3
+  transcription: 3
+  conventions:
+    - sym: "*t"
+      ipa:
+        - t̪
+      explicit: true
+      notes:
+        - "*t is consistently described as ‘dental’ in this source"
