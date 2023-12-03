@@ -1,50 +1,50 @@
 Austronesian
 
 # poly tngc
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *s / *h
 + merger with '*h'
 - *r /
 
 # tngc niue
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *ʔ /
 + Inferred from original text: ‘loss of glottal stops’
 
 # tngc tong
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *t / č / _i
 - č / s
 
 # poly nply
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *r / *l
 + merger with '*l'
 - *h /
 
 # nply smot
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *w / *v
 
 # smot efut
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *f / w / # _ V *s
 - t / č / _i
 
 # smot elli
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *ʔ /
 + Inferred from original text: ‘loss of glottal stops’
 
 # smot kapi
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *s / h
 - *f / h
@@ -52,7 +52,7 @@ Austronesian
 + Inferred from original text: ‘loss of glottal stops’
 
 # smot luan
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *ʔ /
 + Inferred from original text: ‘loss of glottal stops’
@@ -78,21 +78,21 @@ Austronesian
 - *r / l / #_o
 
 # smot nuko
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *f / h
 - *ʔ /
 + Inferred from original text: ‘loss of glottal stops’
 
 # smot tuva
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *s / h
 - *ʔ /
 + Inferred from original text: ‘loss of glottal stops’
 
 # smot taku
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *f / w / #_V *s
 - *l / [l r]
@@ -115,14 +115,14 @@ Austronesian
 /& in younger speakers
 
 # smot puka
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *s / θy
 - *ʔ /
 + Inferred from original text: ‘loss of glottal stops’
 
 # smot samo
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *ʔ /
 + Inferred from original text: ‘loss of glottal stops’
@@ -133,7 +133,7 @@ Austronesian
 - *k / ʔ
 
 # samo csam
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *t / k
 - *n / *ŋ
@@ -146,7 +146,7 @@ Austronesian
 - *n / *ŋ
 
 # smot sika
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *f / w / #_V *s
 - *f / h
@@ -156,98 +156,98 @@ Austronesian
 + Inferred from original text: ‘loss of glottal stops’
 
 # smot pile
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *ʔ /
 + Inferred from original text: ‘loss of glottal stops’
 - t / s / _i
 
 # pile auap
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *f / h
 
 # pile taum
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *s / h
 
 # smot renn
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *f / h
 - *l / *g
 
 # renn rire
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *g / ᵑɡ
 + Transcribed ‘[ngg]’ in original source
 
 # renn bell
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *g / ŋ
 + merger with '*ŋ'
 
 # smot unos
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *l / r
 
 # unos maee
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *ʔ /
 + Inferred from original text: ‘loss of glottal stops’
 
 # unos mele
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *ʔ /
 + Inferred from original text: ‘loss of glottal stops’
 
 # unos tiko
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *ʔ /
 + Inferred from original text: ‘loss of glottal stops’
 
 # unos wfut
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *ʔ /
 + Inferred from original text: ‘loss of glottal stops’
 
 # wfut ffut
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - t / ʃ / _i
 
 # wfut afut
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - t / č / _i
 
 # unos wuve
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *ʔ /
 + Inferred from original text: ‘loss of glottal stops’
 
 # tiko anut
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *f / p
 - *s /
 
 # nply epol
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *ʔ / / #_
 
 # epol cepl
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *ʔ /
 - [*f *s] / *h / [C V] _ [C V] / _ [o u]
@@ -256,7 +256,7 @@ Austronesian
 + merger with '*w'
 
 # cepl hawa
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *k / ʔ
 - *t / k
@@ -275,17 +275,17 @@ Austronesian
 /& ‘only where a 't' follows later in the word’
 
 # cepl mang
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - [*s *f] / ʔ
 
 # cepl ruru
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - [*s *f *k *ŋ] / ʔ
 
 # cepl tahi
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *k / ʔ
 
@@ -294,31 +294,31 @@ Austronesian
 - *t / k / _ V t
 
 # tahi ltah
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *t / k
 
 # cepl marq
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *r / ʔ
 
 # marq smrq
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *k / ʔ
 - *ŋ / n
 + merger with '*n'
 
 # marq nmrq
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *ŋ / k
-+ merger eith '*k'
++ merger with '*k'
 + ‘except in the Taipi Valley on Nukuhiva’
 
 # cepl cima
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - [*f *h] / ʔ
 
@@ -327,19 +327,19 @@ Austronesian
 ; left blank, no changes currently
 
 # nzma bpma
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *ŋ / n
 + merger with '*n'
 
 # nzma sima
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *ŋ / k
-+ merger eith '*k'
++ merger with '*k'
 
 # nzma twma
-@biggsHistorypolyPhonology2015
+@biggsHistoryPolynesianPhonology2015
 
 - *h / ʔ
 - *f / *wˀ

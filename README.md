@@ -15,3 +15,5 @@ But here’s what I’ve said [elsewhere](https://verduria.org/viewtopic.php?p=7
 > For the languages and purported subgroupings, I’m defining unique identifiers for each, listed in a CSV file (similarly to how other projects work such as Glottolog and WALS).
 
 And, one thing I forgot to mention: languages can be associated with (often reconstructed) phonemic inventories, which are listed in another YAML file.
+
+For citations, this currently uses the `chicago-author-date` style from the [CSL project](https://citationstyles.org/).

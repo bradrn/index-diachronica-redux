@@ -1,0 +1,123 @@
+@font-face {
+  font-family:Iosevka Web;
+  font-display:swap;
+  font-weight:400;
+  font-stretch:normal;
+  font-style:normal;
+  src:url(https://typeof.net/Iosevka/_next/static/media/iosevka-regular.1766e490.woff2) format("woff2")
+  /* src:url(https://typeof.net/Iosevka/_next/static/media/iosevka-extended.841e2c47.woff2) format("woff2") */
+}
+@font-face {
+  font-family:Iosevka Web;
+  font-display:swap;
+  font-weight:400;
+  font-stretch:normal;
+  font-style:italic;
+  src:url(https://typeof.net/Iosevka/_next/static/media/iosevka-italic.45e3847b.woff2) format("woff2")
+}
+@font-face {
+  font-family:Iosevka Web;
+  font-display:swap;
+  font-weight:700;
+  font-stretch:normal;
+  font-style:normal;
+  src:url(https://typeof.net/Iosevka/_next/static/media/iosevka-bold.ba6be14d.woff2) format("woff2")
+}
+html {
+    font-family: 'Iosevka Web';
+    /* font-size: 10pt; */
+}
+body {
+    padding: 0 1cm;
+    background-color: #fff5f0;
+}
+.box {
+    padding-top: .25rem;
+    padding-left: .25rem;
+    padding-right: .25rem;
+    padding-bottom: .25rem;
+    max-width: 25cm;
+    margin-bottom: 1rem;
+}
+h2 {
+    font-size: 1.25em;
+}
+.box h2, .box h3 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.box > p {
+    margin-top: .25rem;
+}
+h3 {
+    /* font-style: italic; */
+}
+.changes {
+    background-color: #fec;
+    border: solid 1px #da9;
+}
+.reference {
+    background-color: #eef;
+    border: solid 1px #9ad;
+}
+.lang {
+    background-color: #fdd;
+    border: solid 1px #d99;
+}
+.changes hr {
+    border: solid 1px #da9;
+}
+.comment {
+    font-style: italic;
+}
+.condition {
+    font-style: italic;
+}
+ul.sc {
+    margin-bottom: 0rem;
+}
+ul.sc > li {
+    margin: .1rem 0;
+}
+ul.contents {
+    margin-top: -1rem;
+}
+details {
+    margin-top: .25rem;
+}
+summary {
+    font-weight: bold;
+}
+summary::after {
+    font-weight: normal;
+    font-style: italic;
+    content: ' (click to open)';
+}
+summary + p {
+    margin-top: .25rem;
+}
+details p {
+    margin-left: 2rem;
+    font-style: italic;
+}
+table {
+    border-collapse: collapse;
+}
+td, th {
+    border: solid 1px grey;
+    padding-right: .1rem;
+    padding-left: .1rem;
+}
+th {
+    font-style: italic;
+    font-weight: normal;
+    text-align: left;
+    padding-right: .2rem;
+}
+box table {
+    margin-top: .5rem;
+    max-width: 50rem;
+}
+table.phonemes {
+    text-align: center;
+}

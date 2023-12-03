@@ -19,7 +19,8 @@ common warnings
 executable index-diachronica-redux
     import:           warnings
     main-is:          Main.hs
-    other-modules:    ID.Parse
+    other-modules:    ID.Generate
+                    , ID.Parse
                     , ID.Schemata
     -- other-extensions:
     build-depends:    base ^>=4.16.4.0
@@ -35,7 +36,9 @@ executable index-diachronica-redux
                     , megaparsec ^>=9.2.2
                     , mtl ^>=2.2.2
                     , pandoc ^>=3.1.9
+                    , pandoc-types ^>=1.23.0
                     , text ^>=1.2.5
+                    , vector ^>=0.13.1
                     , yaml ^>=0.11.11
     hs-source-dirs:   app
     default-language: Haskell2010
