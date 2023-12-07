@@ -10,9 +10,9 @@ module ID.Generate (genPage) where
 import Brassica.SoundChange.Types (Lexeme(..), Grapheme(..), Rule(..), Flags(..))
 import Lucid
 import Data.List (intersperse, find)
-import Data.Maybe (isNothing)
+import Data.Maybe (isNothing, fromJust)
 import Data.Set (Set)
-import Data.Text (Text, unpack)
+import Data.Text (Text, unpack, pack)
 import Text.Pandoc ()
 import Text.Pandoc.Builder (Inline(..), Inlines, QuoteType(..))
 
@@ -23,6 +23,12 @@ import ID.Schemata
 
 unlinesHtml :: [Html ()] -> Html ()
 unlinesHtml = mconcat . intersperse (br_ [])
+
+(==&) :: Eq b => (a -> b) -> b -> (a -> Bool)
+(==&) f v = (==v) . f
+
+genIPA :: [Text] -> Text
+genIPA is = "[" <> mconcat (intersperse "~" is) <> "]"
 
 genConventions :: [Convention] -> Html ()
 genConventions cs = table_ [class_ "transcription"] $ header <> body
@@ -35,9 +41,6 @@ genConventions cs = table_ [class_ "transcription"] $ header <> body
       , td_ $ unlinesHtml $
           genMessage c_explicit ++ fmap toHtml c_notes
       ]
-
-    genIPA :: [Text] -> Text
-    genIPA is = "[" <> mconcat (intersperse "~" is) <> "]"
 
     genMessage True = []
     genMessage False = ["(" <> i_ "unclear from source" <> ")"]
@@ -153,9 +156,9 @@ applySpacing __ = extract . go
     go (s:Empty:ss) = go (s:ss)
     go (Empty:s:ss) = go (s:ss)
 
-genLexemes :: [Lexeme a] -> Html ()
-genLexemes [] = "∅"
-genLexemes ls_ = applySpacing " " $ go <$> ls_
+genLexemes :: [Convention] -> [Lexeme a] -> Html ()
+genLexemes _ [] = "∅"
+genLexemes convs ls_ = applySpacing " " $ go <$> ls_
   where
     go :: Lexeme a -> Spacing (Html ())
     go (Grapheme g) = Both $ renderG g
@@ -163,7 +166,7 @@ genLexemes ls_ = applySpacing " " $ go <$> ls_
         "{" <>
         mconcat (intersperse ", " $ fmap renderG gs)
         <> "}"
-    go (Optional ls) = Both $ toHtml $ "(" <> genLexemes ls <> ")"
+    go (Optional ls) = Both $ toHtml $ "(" <> genLexemes convs ls <> ")"
     go Metathesis = Both $ span_ [class_ "comment"] "reversed"
     go Geminate = After "ː"
     go (Wildcard l) = ("… " <>) <$> go l
@@ -173,11 +176,14 @@ genLexemes ls_ = applySpacing " " $ go <$> ls_
     go (Multiple gs) = go (Category gs)
 
     renderG :: Grapheme -> Html ()
-    renderG (GMulti cs) = toHtml cs
+    renderG (GMulti cs)
+        | Just Convention{c_ipa} <- find (c_sym ==& pack cs) convs
+        = abbr_ [title_ $ genIPA c_ipa] $ toHtml cs
+        | otherwise = toHtml cs
     renderG GBoundary = "#"
 
-genChange :: Change -> Html ()
-genChange c = addNotes $ case ch_overrides c of
+genChange :: [Convention] -> Change -> Html ()
+genChange convs c = addNotes $ case ch_overrides c of
     NoOverride -> mkRuleWith $ mconcat
         [ if null (environment r) then mempty else " / "
         , mconcat $ intersperse ", " $ fillHole <$> environment r
@@ -198,17 +204,17 @@ genChange c = addNotes $ case ch_overrides c of
     r = ch_rule c
 
     mkRuleWith env = mconcat
-        [ genLexemes (target r)
+        [ genLexemes convs (target r)
         , " → "
-        , genLexemes (replacement r)
+        , genLexemes convs (replacement r)
         , env
         , if sporadic $ flags r then " (" <> i_ "sporadic" <> ")" else mempty
         ]
 
     fillHole ([],[]) = "_"
-    fillHole (e1,[]) = genLexemes e1 <> " _"
-    fillHole ([],e2) = "_ " <> genLexemes e2
-    fillHole (e1,e2) = genLexemes e1 <> " _ " <> genLexemes e2
+    fillHole (e1,[]) = genLexemes convs e1 <> " _"
+    fillHole ([],e2) = "_ " <> genLexemes convs e2
+    fillHole (e1,e2) = genLexemes convs e1 <> " _ " <> genLexemes convs e2
 
     addNotes :: Html () -> Html ()
     addNotes = case ch_notes c of
@@ -222,33 +228,36 @@ lookupByID ls i = maybe i fst $ V.uncons (V.mapMaybe go ls)
         | la_id l == i = Just $ la_name l
         | otherwise    = Nothing
 
-genEdge :: V.Vector Languoid -> Edge -> Html ()
-genEdge ls e = div_ [class_ "box changes", id_ (e_from e <> "-" <> e_to e)] $
+genEdge :: [ReferenceData] -> V.Vector Languoid -> Edge -> Html ()
+genEdge rds ls e = div_ [class_ "box changes", id_ (e_from e <> "-" <> e_to e)] $
     header <> foldMap body (e_changes e)
   where
     header = h3_ $ toHtml $
         lookupByID ls (e_from e) <> " to " <> lookupByID ls (e_to e)
     body (source, changes) =
-        section "Source" (sourceLink source)
-        <> ul_ (foldMap (li_ . genChange) changes)
+        let convs = r_conventions $ fromJust $ find (r_source ==& source) rds
+        in
+            section "Source" (sourceLink source)
+            <> ul_ (foldMap (li_ . genChange convs) changes)
 
 data ContentsLine = EdgeLine Text Text | InfoLine Text
     deriving (Show)
 
 genSoundChanges
-    :: V.Vector Languoid
+    :: [ReferenceData]
+    -> V.Vector Languoid
     -> [LangInfo]
     -> [Edge]
     -> (Html (), [ContentsLine], Set Text)
-genSoundChanges ls lis es = foldMap genTree roots
+genSoundChanges rds ls lis es = foldMap genTree roots
   where
     roots :: Set Text
     roots = Set.fromList $ e_from <$> filter e_root es
 
     genTree :: Text -> (Html (), [ContentsLine], Set Text)
     genTree from =
-        foldMap genLangInfo' (filter ((==from) . l_root) lis)
-        <> foldMap genEdgesFrom (filter ((==from) . e_from) es)
+        foldMap genLangInfo' (filter (l_root ==& from) lis)
+        <> foldMap genEdgesFrom (filter (e_from ==& from) es)
 
     genLangInfo' :: LangInfo -> (Html (), [ContentsLine], Set Text)
     genLangInfo' li =
@@ -259,7 +268,7 @@ genSoundChanges ls lis es = foldMap genTree roots
 
     genEdgesFrom :: Edge -> (Html (), [ContentsLine], Set Text)
     genEdgesFrom e =
-        ( genEdge ls e
+        ( genEdge rds ls e
         , [EdgeLine (e_from e) (e_to e)]
         , Set.fromList $ fst <$> e_changes e
         )
@@ -300,7 +309,7 @@ genPage ls lis refs rds sc = html_ $ do
         title_ $ toHtml $ "Sound changes: " <> sc_title sc
         link_ [href_ "style.css", rel_ "stylesheet"]
     body_ $ do
-        let (rendered, contents, refset) = genSoundChanges ls lis (sc_contents sc)
+        let (rendered, contents, refset) = genSoundChanges rds ls lis (sc_contents sc)
         h1_ $ toHtml $ "Sound changes: " <> sc_title sc
         h2_ "Contents"
         genContents ls contents
