@@ -64,7 +64,6 @@ data Inventory = Inventory
 
 data LangInfo = LangInfo
     { l_root :: Text
-    , l_name :: Text
     , l_inventory :: [Inventory]
     } deriving (Show)
 

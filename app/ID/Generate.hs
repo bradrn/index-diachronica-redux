@@ -122,12 +122,12 @@ genSuprasegmentals ss = table_ [class_ "suprasegmentals"] $ header <> body
 sourceLink :: Text -> Html ()
 sourceLink s = a_ [href_ $ "#" <> s] $ toHtml $ "[" <> s <> "]"
 
-genLangInfo :: LangInfo -> Html ()
-genLangInfo l = foldMap go (l_inventory l)
+genLangInfo :: V.Vector Languoid -> LangInfo -> Html ()
+genLangInfo ls l = foldMap go (l_inventory l)
   where
     go :: Inventory -> Html ()
-    go i = div_ [class_ "box lang", id_ (l_name l)] $ mconcat
-        [ h3_ $ toHtml $ l_name l
+    go i = div_ [class_ "box lang", id_ (l_root l)] $ mconcat
+        [ h3_ $ toHtml $ lookupByID ls (l_root l)
         , section "Source" $ sourceLink $ i_source i
         , section "Consonant inventory" $ toTable (i_consonants i) <> genComments (i_cnotes i)
         , section "Vowel inventory" $ toTable (i_vowels i) <> genComments (i_cnotes i)
@@ -261,7 +261,7 @@ genSoundChanges rds ls lis es = foldMap genTree roots
 
     genLangInfo' :: LangInfo -> (Html (), [ContentsLine], Set Text)
     genLangInfo' li =
-        ( genLangInfo li
+        ( genLangInfo ls li
         , [InfoLine $ l_root li]
         , Set.fromList $ i_source <$> l_inventory li
         )
