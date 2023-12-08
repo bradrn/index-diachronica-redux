@@ -22,6 +22,7 @@ import qualified Data.Text.IO as TIO
 import ID.Generate
 import ID.Parse
 import ID.Schemata
+import Text.Megaparsec.Error.Builder (err)
 
 main :: IO ()
 main = do
@@ -43,7 +44,10 @@ main = do
     Right style <- parseStyle (const $ pure mempty) stylesheet
     let bib = resultBibliography $ citeproc os style Nothing refs []
 
-    Right rds <- decodeFileEither @[ReferenceData] "data/references-data.yaml"
+    rds' <- decodeFileEither @[ReferenceData] "data/references-data.yaml"
+    let rds = case rds' of
+            Left err -> error $ show err
+            Right val -> val
 
     changefiles <- listDirectory "data/changes"
     for_ changefiles $ \file -> do
