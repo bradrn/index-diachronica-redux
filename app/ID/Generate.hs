@@ -5,7 +5,7 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module ID.Generate (genPage) where
+module ID.Generate (genPage, genIndex) where
 
 import Brassica.SoundChange.Types
     ( Lexeme(..)
@@ -15,7 +15,8 @@ import Brassica.SoundChange.Types
     , CategorySpec(..)
     , CategoryModification (..)
     )
-import Lucid
+import Lucid hiding (for_)
+import Data.Foldable (for_)
 import Data.List (intersperse, find)
 import Data.Maybe (isNothing, fromJust)
 import Data.Set (Set)
@@ -345,3 +346,17 @@ genPage ls lis refs rds sc = html_ $ do
         foldMap (findAndGenReference refs rds) refset
         h2_ "Changes"
         rendered
+
+genIndex :: [(Text, Text)] -> Html ()
+genIndex pages = html_ $ do
+    head_ $ do
+        meta_ [charset_ "utf-8"]
+        title_ "Index Diachronica Redux"
+        link_ [href_ "style.css", rel_ "stylesheet"]
+    body_ $ do
+        h1_ "Index Diachronica Redux"
+        p_ $ do
+            "Contents:"
+            ul_ [] $
+                for_ pages $ \(title, url) ->
+                    li_ $ a_ [href_ url] $ toHtml title

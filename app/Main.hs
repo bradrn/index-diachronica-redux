@@ -7,7 +7,8 @@ import Control.Monad.State.Strict (runState, runStateT)
 import Citeproc (citeproc, parseStyle)
 import Citeproc.Types (CiteprocOptions(..), Result (resultBibliography))
 import Data.Csv (decodeByName)
-import Data.Foldable (for_)
+import Data.Text (pack)
+import Data.Traversable (for)
 import Data.Yaml (decodeFileEither, decodeFileThrow)
 import Lucid (renderBS)
 import Text.Pandoc (def, unPandocPure)
@@ -22,7 +23,6 @@ import qualified Data.Text.IO as TIO
 import ID.Generate
 import ID.Parse
 import ID.Schemata
-import Text.Megaparsec.Error.Builder (err)
 
 main :: IO ()
 main = do
@@ -50,7 +50,11 @@ main = do
             Right val -> val
 
     changefiles <- listDirectory "data/changes"
-    for_ changefiles $ \file -> do
+    let subdir = "site"
+    files <- for changefiles $ \file -> do
         Right scs <- parseChanges file <$> TIO.readFile ("data/changes" </> file)
         let page = genPage ls lis bib rds scs
-        BL.writeFile (file -<.> "html") $ renderBS page
+            filename = file -<.> "html"
+        BL.writeFile (subdir </> filename) $ renderBS page
+        pure (sc_title scs, pack filename)
+    BL.writeFile (subdir </> "index.html") $ renderBS $ genIndex files
