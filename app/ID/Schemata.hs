@@ -8,7 +8,7 @@ module ID.Schemata where
 
 import Prelude hiding (lookup)
 
-import Brassica.SoundChange.Types (Rule)
+import Brassica.SoundChange.Types (Rule, CategorySpec)
 import Data.Aeson (FromJSON(..), ToJSON(..), withObject, (.:), object, (.=))
 import Data.Aeson.TH (deriveJSON, defaultOptions, fieldLabelModifier)
 import Data.Aeson.Types (parseFail)
@@ -84,7 +84,7 @@ data Overrides = NoOverride | WholeRule Text | WholeEnvironment Text | ExtraCond
     deriving (Show)
 
 data Change = Change
-    { ch_rule :: Rule
+    { ch_rule :: Rule CategorySpec
     , ch_overrides :: Overrides
     , ch_notes :: [Text]
     } deriving (Show)

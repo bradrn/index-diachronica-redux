@@ -3,5 +3,5 @@ packages: .
 source-repository-package
     type: git
     location: https://github.com/bradrn/brassica.git
-    tag: ebec85b81848268387f475feb1eee66e5aa56db5
+    tag: fdcd7ac63e8cee5377c6af06c934147c6544416d
 

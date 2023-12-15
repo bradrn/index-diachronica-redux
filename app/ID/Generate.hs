@@ -7,7 +7,14 @@
 
 module ID.Generate (genPage) where
 
-import Brassica.SoundChange.Types (Lexeme(..), Grapheme(..), Rule(..), Flags(..))
+import Brassica.SoundChange.Types
+    ( Lexeme(..)
+    , Grapheme(..)
+    , Rule(..)
+    , Flags(..)
+    , CategorySpec(..)
+    , CategoryModification (..)
+    )
 import Lucid
 import Data.List (intersperse, find)
 import Data.Maybe (isNothing, fromJust)
@@ -17,6 +24,7 @@ import Text.Pandoc ()
 import Text.Pandoc.Builder (Inline(..), Inlines, QuoteType(..))
 
 import qualified Data.Set as Set
+import qualified Data.Text as Text
 import qualified Data.Vector as V
 
 import ID.Schemata
@@ -29,6 +37,15 @@ unlinesHtml = mconcat . intersperse (br_ [])
 
 genIPA :: [Text] -> Text
 genIPA is = "[" <> mconcat (intersperse "~" is) <> "]"
+
+formatted :: Text -> Html ()
+formatted = mconcat . intersperse " " . fmap go . Text.words
+  where
+    go x
+        | Just ('\'', x' ) <- Text.uncons x
+        , Just (x'', '\'') <- Text.unsnoc x'
+        = span_ [class_ "phoneme"] $ toHtml x''
+        | otherwise = toHtml x
 
 genConventions :: [Convention] -> Html ()
 genConventions cs = table_ [class_ "transcription"] $ header <> body
@@ -102,7 +119,7 @@ genReference doi ref rd = div_ [class_ "box reference", id_ (r_source rd)] $ mco
 
 genComments :: [Text] -> Html ()
 genComments [] = mempty
-genComments cs = ul_ [class_ "comment"] $ foldMap (li_ . toHtml) cs
+genComments cs = ul_ [class_ "comment"] $ foldMap (li_ . formatted) cs
 
 genSuprasegmentals :: [Suprasegmental] -> Html ()
 genSuprasegmentals ss = table_ [class_ "suprasegmentals"] $ header <> body
@@ -156,16 +173,19 @@ applySpacing __ = extract . go
     go (s:Empty:ss) = go (s:ss)
     go (Empty:s:ss) = go (s:ss)
 
-genLexemes :: [Convention] -> [Lexeme a] -> Html ()
+genLexemes :: [Convention] -> [Lexeme CategorySpec a] -> Html ()
 genLexemes _ [] = "∅"
 genLexemes convs ls_ = applySpacing " " $ go <$> ls_
   where
-    go :: Lexeme a -> Spacing (Html ())
+    go :: Lexeme CategorySpec a -> Spacing (Html ())
     go (Grapheme g) = Both $ renderG g
-    go (Category gs) = Both $ toHtml $
-        "{" <>
-        mconcat (intersperse ", " $ fmap renderG gs)
+    go (Category (CategorySpec ((Union,g):gs))) = Both $ toHtml $
+        "{"
+        <> renderG' g
+        <> foldMap renderMod gs
         <> "}"
+    go (Category (CategorySpec _)) = error "genLexemes: meaningless category"
+    go (Category (MustInline g)) = Both $ toHtml g
     go (Optional ls) = Both $ toHtml $ "(" <> genLexemes convs ls <> ")"
     go Metathesis = Both $ span_ [class_ "comment"] "reversed"
     go Geminate = After "ː"
@@ -174,6 +194,14 @@ genLexemes convs ls_ = applySpacing " " $ go <$> ls_
     go Discard = Empty
     go (Backreference _ _) = error "genLexemes: backreferences not yet supported"
     go (Multiple gs) = go (Category gs)
+
+    renderG' :: Either Grapheme [Lexeme CategorySpec a] -> Html ()
+    renderG' = either renderG (genLexemes convs)
+
+    renderMod :: (CategoryModification, Either Grapheme [Lexeme CategorySpec a]) -> Html ()
+    renderMod (Union, g) = ", " <> renderG' g
+    renderMod (Intersect, g) = "+" <> renderG' g
+    renderMod (Subtract, g) = "-" <> renderG' g
 
     renderG :: Grapheme -> Html ()
     renderG (GMulti cs)
@@ -190,13 +218,13 @@ genChange convs c = addNotes $ case ch_overrides c of
         , if isNothing (exception r) then mempty else " ! "
         , maybe mempty fillHole $ exception r
         ]
-    WholeRule t -> toHtml t
-    WholeEnvironment t -> mkRuleWith $ toHtml $ " / " <> t
+    WholeRule t -> formatted t
+    WholeEnvironment t -> mkRuleWith $ " / " <> formatted t
     ExtraConditions ts -> mkRuleWith $ mconcat
         [ if null (environment r) then mempty else " / "
         , mconcat $ intersperse ", " $
             (fillHole <$> environment r) ++
-            (toHtml <$> ts)
+            (formatted <$> ts)
         , if isNothing (exception r) then mempty else " ! "
         , maybe mempty fillHole $ exception r
         ]
@@ -219,7 +247,7 @@ genChange convs c = addNotes $ case ch_overrides c of
     addNotes :: Html () -> Html ()
     addNotes = case ch_notes c of
         [] -> id
-        ns -> flip mappend $ ul_ [class_ "comment"] $ foldMap (li_ . toHtml) ns
+        ns -> flip mappend $ genComments ns
 
 lookupByID :: V.Vector Languoid -> Text -> Text
 lookupByID ls i = maybe i fst $ V.uncons (V.mapMaybe go ls)
