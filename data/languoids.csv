@@ -3,17 +3,23 @@ afut,Aniwan dialect of West Futunan
 anut,Anutan dialect of Tikopian
 auap,Aua dialect of Pileni
 bell,Bellona Rennellese
+bosk,Proto-Border
 bpma,Bay of Plenty New Zealand Māori
 cepl,Proto-Central-Eastern Polynesian
 cima,Cook Islands Māori
 csam,Colloquial Samoan
+dumo,Dumo
+dusu,Dusur
 efut,East Futunan
 elli,Ellicean
 epol,Proto-Eastern Polynesian
+essk,Proto-Eastern Skou
 ffut,Futunan dialect of West Futunan
-hawa,Hawaiian
 hani,Niʻihau Hawaiian
+hawa,Hawaiian
+insk,Proto-Inner Skou
 kapi,Kapingamarangi
+leit,Leitre
 ltah,Leeward Tahitian
 luan,Luangiua
 maee,Mae
@@ -34,8 +40,10 @@ renn,Rennellese
 rire,Rennel Island Rennellese
 ruru,Rurutu
 samo,Samoan
+sank,Sangke
 sika,Sikaiana
 sima,South Island New Zealand Māori
+skou,Skou
 smot,Proto-Samoic-outlier
 smrq,Southern dialect of Marquesan
 tahi,Tahitian
@@ -47,5 +55,8 @@ tong,Tongan
 tuva,Tuvaluan
 twma,Taranaki-Wanganui River New Zealand Māori
 unos,Proto-Unnamed Outlier Subgroup
+vani,Proto-Vanimo
+wcsk,Proto-West Coast
 wfut,West Futunan
+wutu,Wutung
 wuve,West Uvean

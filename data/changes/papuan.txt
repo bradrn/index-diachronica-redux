@@ -1,0 +1,68 @@
+Papuan
+
+# insk skou
+@donohueWhichSoundsChange2002
+
+- *t / r
+- *kʷ / [k w]
++ Conditioning factor for split not specified in source
+- *s / [r j]
++ Conditioning factor for split not specified in source
+- *d / t
+- *ɡ / [h {}]
++ Conditioning factor for split not specified in source
+- *ɡʷ → p
+- *ŋ / [{} k n] / #_
+/+ in bound prefixes
++ Conditioning factor for split not specified in source
+- *ŋ / n
+/& in pronouns
+- *ŋ /
+/& in nouns
+- [*ɛ *ɔ] / a / h_
+/+ or [+falling]
+- *e / ɛ
++ Merger with '*ɛ'
+- *o / ɔ
++ Merger with '*ɔ'
+- *ʉ → ɵ / _N
+/+ or [+nasal]
+- *ɵ / u
+- *p *l / [p l]
+/& in onset
++ Conditioning factor for split not specified in source
+- *t *l / [r t]
+/& in onset
++ Conditioning factor for split not specified in source
+- *k *l / l
+/& in onset
+- *b *l / p
+/& in onset
+- *m *l / p
+/& in onset
+- *h *y / h
+/& in onset
+- V *n V / [V +nasal]
+
+# insk essk
+@donohueWhichSoundsChange2002
+
+- [V +nasal] *d / [V -nasal] *n
+- *ʉ / *i / s_
+- [*ʉ +nasal] / [*u +nasal]
+- *ʉ / *u / [k ɡ kʷ ɡʷ] _
+
+#essk wcsk
+@donohueWhichSoundsChange2002
+
+- *ɡʷ / *ɡ
+- *ɡ / *j
+
+#wcsk bosk
+@donohueWhichSoundsChange2002
+
+- *j / *tʃ
+- *l / *n / _ [V +nasal]
+- *t *l / *h *l
+/& in onset
+- *b / *p / _ // _ l

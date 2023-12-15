@@ -15,3 +15,32 @@
         - [""  , "*a", ""  ]
       vnotes: []
       supras: []
+- root: insk
+  inventory:
+    - source: donohueWhichSoundsChange2002
+      consonants:
+        - ["*p", "*t", ""  , "*k", "*kʷ" , ""]
+        - ["*b", "*d", "*j", "*g", "*gʷ" , ""]
+        - ["*m", "*n", ""  , "*ŋ", ""    , ""]
+        - ["*f", "*s", ""  , ""  , ""    , "*h"]
+        - [""  , "*l", "*y", ""  , "(*w)", ""]
+      cnotes:
+        - ‘The '*w' cannot be reconstructed with great certainty and is probably not part of the system.’
+      vowels:
+        - ["*i", "*ʉ", "*u"]
+        - ["*e", "*ɵ", "*o"]
+        - ["*ɛ", ""  , "*ɔ"]
+        - [""  , "*a", ""  ]
+      vnotes: []
+      supras:
+        - type: multi
+          value:
+            - high
+            - low
+            - fall
+          notes:
+            - ‘A three- or four-way contrast in pitch is present on monosyllables in all languages—High (H), Low (L) and Fall (HL)— so it seems reasonable to posit at least these tonal contrasts in the protolanguage.’ However, Donohue does ‘not refer to the tones of lexical items’ in his reconstruction.
+        - type: binary
+          value: nasal
+          notes:
+            - ‘It seems more likely [...] that there was a nasality contrast in Proto-Skou on all syllables regardless of their onset’
