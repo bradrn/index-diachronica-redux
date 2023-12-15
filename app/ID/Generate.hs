@@ -17,10 +17,12 @@ import Brassica.SoundChange.Types
     )
 import Lucid hiding (for_)
 import Data.Foldable (for_)
-import Data.List (intersperse, find)
+import Data.List (intersperse, find, sortOn)
 import Data.Maybe (isNothing, fromJust)
 import Data.Set (Set)
 import Data.Text (Text, unpack, pack)
+import Data.Time (UTCTime)
+import Data.Time.Format.ISO8601 (ISO8601(iso8601Format), formatShow)
 import Text.Pandoc ()
 import Text.Pandoc.Builder (Inline(..), Inlines, QuoteType(..))
 
@@ -347,16 +349,17 @@ genPage ls lis refs rds sc = html_ $ do
         h2_ "Changes"
         rendered
 
-genIndex :: [(Text, Text)] -> Html ()
-genIndex pages = html_ $ do
+genIndex :: UTCTime -> [(Text, Text)] -> Html ()
+genIndex time pages = html_ $ do
     head_ $ do
         meta_ [charset_ "utf-8"]
         title_ "Index Diachronica Redux"
         link_ [href_ "style.css", rel_ "stylesheet"]
     body_ $ do
         h1_ "Index Diachronica Redux"
+        p_ $ toHtml $ "(generated at " ++ formatShow iso8601Format time ++ ")"
         p_ $ do
             "Contents:"
             ul_ [] $
-                for_ pages $ \(title, url) ->
+                for_ (sortOn fst pages) $ \(title, url) ->
                     li_ $ a_ [href_ url] $ toHtml title

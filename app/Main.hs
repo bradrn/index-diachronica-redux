@@ -8,6 +8,7 @@ import Citeproc (citeproc, parseStyle)
 import Citeproc.Types (CiteprocOptions(..), Result (resultBibliography))
 import Data.Csv (decodeByName)
 import Data.Text (pack)
+import Data.Time
 import Data.Traversable (for)
 import Data.Yaml (decodeFileEither, decodeFileThrow)
 import Lucid (renderBS)
@@ -57,4 +58,5 @@ main = do
             filename = file -<.> "html"
         BL.writeFile (subdir </> filename) $ renderBS page
         pure (sc_title scs, pack filename)
-    BL.writeFile (subdir </> "index.html") $ renderBS $ genIndex files
+    time <- getCurrentTime
+    BL.writeFile (subdir </> "index.html") $ renderBS $ genIndex time files
