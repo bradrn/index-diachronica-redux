@@ -61,7 +61,7 @@ Austronesian
 - *t / k
 - n / ŋ
 + merger with '*ŋ'
-+ ‘seems to be related to the backing of *t to k’
++ ‘seems to be related to the backing of '*t' to 'k' ’
 
 # smot nuke
 @davletshinSeeminglyOngoingSound2015
@@ -138,7 +138,7 @@ Austronesian
 - *t / k
 - *n / *ŋ
 + merger with '*ŋ'
-+ ‘seems to be related to the backing of *t to k’
++ ‘seems to be related to the backing of '*t' to 'k' ’
 
 @blustAustronesianSoundChange2004
 
