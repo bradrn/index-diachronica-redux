@@ -25,7 +25,7 @@ executable index-diachronica-redux
     -- other-extensions:
     build-depends:    base ^>=4.16.4.0
                     , aeson ^>=2.2.1
-                    , brassica ^>=0.1.1
+                    , brassica ^>=0.2.0
                     , bytestring ^>=0.11.4
                     , cassava ^>=0.5.3
                     , citeproc ^>=0.8.1
