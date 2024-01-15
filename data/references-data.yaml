@@ -173,3 +173,121 @@
         - ɹ
       explicit: false
       notes: []
+- source: mohlig_reference_2008
+  transcriber: Vilike
+  reviewer:
+  ordering: 2
+  exhaustivity: 3
+  detail: 2
+        - i̝
+        - i̘
+      explicit: false
+      notes:
+        - Is described as a ‘high tense vowel’
+    - sym: "*i"
+      ipa: 
+        - i̞
+        - i̙
+      explicit: false
+      notes:
+        - Contrasts with a ‘high tense vowel’ *i̧
+    - sym: "*u̧"
+      ipa:
+        - u̝
+        - u̘
+      explicit: false
+      notes:
+        - Is described as a ‘high tense vowel’
+    - sym: "*u"
+      ipa:
+        - u̞
+        - u̙
+      explicit: false
+      notes:      
+        - Contrasts with a ‘high tense vowel’ *u̧
+    - sym: "e"
+      ipa:
+        - ɛ
+      explicit: true
+      notes: []
+    - sym: "o"
+      ipa:
+        - ɔ
+      explicit: true
+      notes: []
+    - sym: "*p̱"
+      ipa: 
+        - p͉
+      explicit: false
+      notes:
+        - Alternates with Common Bantu *p in the transcription of sound changes
+        - ‘The bilabial *p had a lenis closure … This assumption is in so far plausible as many sound systems of Eastern Savannah Bantu are structured in this way.’
+    - sym: "*ḇ"
+      ipa:
+        - β̞
+      explicit: false
+      notes:
+        - Alternates with Common Bantu *b in the transcription of sound changes
+        - ‘In Otjiherero, the earliest stage that can be reconstructed for this major sound class has in common the features [-stop] and [-fricative], thus *ḇ *ḏ *g̱.’
+    - sym: "*ḏ"
+      ipa:
+        - l
+        - ɹ
+      explicit: false
+      notes:
+        - Alternates with Common Bantu *d in the transcription of sound changes
+        - ‘In Otjiherero, the earliest stage that can be reconstructed for this major sound class has in common the features [-stop] and [-fricative], thus *ḇ *ḏ *g̱.’
+    - sym: "*g̱"
+      ipa:
+        - j
+        - ɰ
+      explicit: false
+      notes:
+        - Alternates with Common Bantu *g in the transcription of sound changes
+        - ‘In Otjiherero, the earliest stage that can be reconstructed for this major sound class has in common the features [-stop] and [-fricative], thus *ḇ *ḏ *g̱.’
+    - sym: "*c"
+      ipa:
+        - tʃ
+      explicit: true
+      notes:
+        - ‘the alveo-palatal *c had already changed from a former stop with delayed release …’
+    - sym: "*ⁿc"
+      ipa:
+        - ⁿtʃ
+      explicit: true
+      notes:
+        - ‘the alveo-palatal *c had already changed from a former stop with delayed release into a plain fricative … as a voiceless fricative it could no longer be pre-nasalized.’
+    - sym: "*j"
+      ipa:
+        - dʒ
+      explicit: true
+      notes:
+        - ‘Before the merger took place, *j was most probably an affricate **dʒ and not yet an approximant.’
+    - sym: "*ⁿj"
+      ipa:
+        - ⁿdʒ
+      explicit: true
+      notes:
+        - ‘Before the merger took place, *j was most probably an affricate **dʒ and not yet an approximant.’
+    - sym: "v"
+      ipa:
+        - β̞
+        - β
+      explicit: false
+      notes: 
+        - Listed alongside other voiced fricatives
+        - ‘The difference between v and w is lip rounding, whereas the bilabial articulation is the same. v is articulated with spread lips …’
+    - sym: "y"
+      ipa:
+        - j
+      explicit: false
+      notes:
+        - Although listed alongside other voiced fricatives on p.24, it's described on p.27 as a palatal glide and its symbol is used to write non-syllabic /i/
+    - sym: "s̪"
+      ipa:
+        - θ
+      explicit: true
+    - sym: "z̪"
+      ipa:
+        - ð
+      explicit: true

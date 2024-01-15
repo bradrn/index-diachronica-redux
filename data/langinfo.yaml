@@ -60,3 +60,92 @@
       vnotes:
         - ‘Vowel length is contrastive; however it appears that this contrast is phonetic and is caused by [underlying] geminate short vowels’
       supras: []
+- root: cban
+   inventory:
+    - source: mohlig_reference_2008
+      consonants:
+        - ["*p", "*t", "*c"  , "*k"]
+        - ["*b", "*d", "*j"  , "*g"]
+        - ["*m", "*n", "*ɲ", ""]
+        - ["*ᵐp", "*ⁿt", "*ⁿc", "*ᵑk"]
+        - ["*ᵐb", "*ⁿd", "*ⁿj", "*ᵑg"]
+      cnotes: []
+      vowels:
+        - ["*i̧", "", "*u̧"]
+        - ["*i", "", "*u"]
+        - ["*e", "", "*o"]
+        - [""  , "*a", ""]
+      vnotes:
+            - ‘Two contrasting quantities’ for the vowels
+      supras:
+        - type: multi
+          value:
+            - high
+            - low
+          notes: 
+            - ‘Four tone patterns in combination with dissyllabic stems’
+- root: here
+  inventory:
+    - source: mohlig_reference_2008
+      consonants:
+        - ["*p̱", "*t", ""  , "*k"]
+        - [""  , ""  , "*ʃ", ""]
+        - [""  , ""  , "*dʒ", ""]
+        - ["*ḇ", "*ḏ", ""  , "*g̱"]
+        - ["*m", "*n", "*ɲ", ""]
+        - ["*ᵐp", "*ⁿt", "", "*ᵑk"]
+        - ["*ᵐb", "*ⁿd", "*ⁿdʒ", "*ᵑg"]
+      cnotes: []
+      vowels:
+        - ["*i̧", "", "*u̧"]
+        - ["*i", "", "*u"]
+        - ["*e", "", "*o"]
+        - [""  , "*a", ""]
+      vnotes:
+            - ‘Two contrasting quantities’ for the vowels
+      supras:
+        - type: multi
+          value:
+            - high
+            - low
+          notes: 
+            - ‘Four tone patterns in combination with dissyllabic stems’
+        - type: binary
+          value:
+            - stressed
+          notes:
+            - ‘Respiratory accent on the first syllable of word stems’
+- root: oher
+  inventory:
+    - source: mohlig_reference_2008
+      consonants:
+        - ["p", "", "t̪", "*t", ""  , "k", ""]
+        - ["" , "(f)", "s̪", "(s)"  , "", "", "h"]
+        - ["v", "", "z̪", ""  , "y", "", ""]
+        - ["",  "", "", ""  , "tʃ", "", ""]
+        - ["w",  "", "", "", ""  , "", ""]
+        - ["",  "", "", "r", ""  , "", ""]
+        - ["",  "", "", "(l)", ""  , "", ""]
+        - ["m", "", "n̪", "*n", "*ɲ", "", ""]
+        - ["ᵐb", "", "ⁿd̪", "*ⁿd", "*ⁿdʒ", "*ᵑg", ""]
+      cnotes:
+        - ‘[f], [s] and [l] are only found in loanwords’
+      vowels:
+        - ["*i", "", "*u"]
+        - ["*e", "", "*o"]
+        - [""  , "*a", ""]
+      vnotes:
+            - ‘The forms of both groups’ (of long vowels) ‘have -- at least optionally -- two syllabic peaks. Therefore, the question arises wether long vowels have really the same status in the sound inventory as short vowels.’
+      supras:
+        - type: multi
+          value:
+            - high
+            - low
+            - falling
+          notes: 
+            - ‘three contrastive tone patterns’ on dissyllabic stems, namely H-H, H-L and L-L
+        - type: binary
+          value:
+            - stressed
+          notes:
+            - ‘Words usually bear a main accent on the penultimate syllable’
