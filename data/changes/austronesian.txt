@@ -255,6 +255,11 @@ Austronesian
 - *f / *w / # _ *a (*a) *h
 + merger with '*w'
 
+@davletshinConditionedSoundChanges2016
+
+- *f *a *f / *w *a *h / # _
++ Excluding Rapanui, and incomplete in Mangarevan and Marquesan
+
 # cepl hawa
 @biggsHistoryPolynesianPhonology2015
 
@@ -343,3 +348,42 @@ Austronesian
 
 - *h / ʔ
 - *f / *wˀ
+
+# cepl rapa
+@davletshinConditionedSoundChanges2016
+
+- @1 C V @2 C V / @2 C V @1 C V
+/& irregularly, in polymoraic words
+
+- r / ʔ / V (C) V _ V #
+/& in the final syllable of polymoraic words
++ ‘There are many cases … of words where this change has not applied’
++ ‘regular and conditional, but incomplete’
+
+- [*m *n] / ŋ
+/& irregularly, ‘in the vicinity of glottal stops in polymoraic words’
++ ‘The sound change under discussion is found only in two morphemes’
+
+- *ŋ / n
+/& ‘in the vicinity of velar stops’, in bimoraic words
++ ‘the sound change is attested in two examples only, but it is consistent’
+
+- *a *u / ō
+/& ‘in grammatical particles’
+
+- *o *a / ō
+/& ‘in grammatical particles’
+
+- *ʔ /
+/& in polymoraic words
++ ‘recent and ongoing sound change’
++ ‘Glottal stops derived from rhotics are also eliminated between identical vowels’: presumably this sound change is more frequent in that environment
+
+- *h / / _ V (C) V #
++ i.e. in stressed syllables of polymoraic words
+
+- *h / ʔ
+/& in polymoraic words
+
+- *h /
+/& in bimoraic words
