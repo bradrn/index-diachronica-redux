@@ -150,3 +150,26 @@
       explicit: true
       notes:
         - ‘The sound represented by *ɵ is, in most of the languages that reflect it, variable between [ɵ], [ɨ], [ø], and sometimes even [ʉ] ... In Skou the reflex of this sound ... varies between [ø] and [ʏ].’
+- source: davletshinConditionedSoundChanges2016
+  transcriber: bradrn
+  reviewer:
+  ordering: 1
+  exhaustivity: 1
+  detail: 3
+  consensus: 3
+  transcription: 3
+  conventions:
+    - sym: ō
+      ipa:
+        - oː
+      explicit: false
+      notes:
+        - Underlyingly analysed as /o.o/
+    - sym: "*r"
+      ipa:
+        - r
+        - ʁ
+        - ɾ
+        - ɹ
+      explicit: false
+      notes: []

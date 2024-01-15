@@ -44,3 +44,19 @@
           value: nasal
           notes:
             - ‘It seems more likely [...] that there was a nasality contrast in Proto-Skou on all syllables regardless of their onset’
+- root: rapa
+  inventory:
+    - source: davletshinConditionedSoundChanges2016
+      consonants:
+        - ["m", "n", "ŋ", "" ]
+        - ["p", "t", "k", "ʔ"]
+        - ["v", "" , "" , "h"]
+        - ["" , "r", "" , "" ]
+      cnotes: []
+      vowels:
+        - ["i", "" , "u"]
+        - ["e", "" , "o"]
+        - ["" , "a", "" ]
+      vnotes:
+        - ‘Vowel length is contrastive; however it appears that this contrast is phonetic and is caused by [underlying] geminate short vowels’
+      supras: []
