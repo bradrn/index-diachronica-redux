@@ -182,21 +182,25 @@ genLexemes convs ls_ = applySpacing " " $ go <$> ls_
   where
     go :: Lexeme CategorySpec a -> Spacing (Html ())
     go (Grapheme g) = Both $ renderG g
-    go (Category (CategorySpec ((Union,g):gs))) = Both $ toHtml $
-        "{"
-        <> renderG' g
-        <> foldMap renderMod gs
-        <> "}"
-    go (Category (CategorySpec _)) = error "genLexemes: meaningless category"
-    go (Category (MustInline g)) = Both $ toHtml g
+    go (Category s) = Both $ renderSpec s
     go (Optional ls) = Both $ toHtml $ "(" <> genLexemes convs ls <> ")"
     go Metathesis = Both $ span_ [class_ "comment"] "reversed"
     go Geminate = After "ː"
     go (Wildcard l) = ("… " <>) <$> go l
     go (Kleene l) = (<>"…") <$> go l
     go Discard = Empty
-    go (Backreference _ _) = error "genLexemes: backreferences not yet supported"
+    -- not fully congruent with brassica’s semantics, but most
+    -- intuitive in this context
+    go (Backreference n s) = Both $ renderSpec s <> sub_ (toHtml $ show n)
     go (Multiple gs) = go (Category gs)
+
+    renderSpec (MustInline g) = toHtml g
+    renderSpec (CategorySpec ((Union,g):gs)) = toHtml $
+        "{"
+        <> renderG' g
+        <> foldMap renderMod gs
+        <> "}"
+    renderSpec (CategorySpec _) = error "genLexemes: meaningless category"
 
     renderG' :: Either Grapheme [Lexeme CategorySpec a] -> Html ()
     renderG' = either renderG (genLexemes convs)
