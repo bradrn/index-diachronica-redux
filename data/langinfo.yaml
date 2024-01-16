@@ -61,7 +61,7 @@
         - ‘Vowel length is contrastive; however it appears that this contrast is phonetic and is caused by [underlying] geminate short vowels’
       supras: []
 - root: cban
-   inventory:
+  inventory:
     - source: mohlig_reference_2008
       consonants:
         - ["*p", "*t", "*c"  , "*k"]
@@ -102,7 +102,7 @@
         - ["*e", "", "*o"]
         - [""  , "*a", ""]
       vnotes:
-            - ‘Two contrasting quantities’ for the vowels
+        - ‘Two contrasting quantities’ for the vowels
       supras:
         - type: multi
           value:
@@ -111,8 +111,7 @@
           notes: 
             - ‘Four tone patterns in combination with dissyllabic stems’
         - type: binary
-          value:
-            - stressed
+          value: stressed
           notes:
             - ‘Respiratory accent on the first syllable of word stems’
 - root: oher
@@ -145,7 +144,6 @@
           notes: 
             - ‘three contrastive tone patterns’ on dissyllabic stems, namely H-H, H-L and L-L
         - type: binary
-          value:
-            - stressed
+          value: stressed
           notes:
             - ‘Words usually bear a main accent on the penultimate syllable’
