@@ -30,7 +30,12 @@ Bantu
 - [*ḇ *g̱] / w _ [*o *u]
 + Ordering unclear
 - *dʒ / *ʒ
-- [H-L Lː-L Hː-L L-L] / [H-H H-H H-L L-L]
+- [+high +long] [-high] / [+high -long] [-high]
+/& in dissyllabic stems
+- [-high +long] [-high] / [+high -long] [+high]
+/& in dissyllabic stems
+- [+high -long] [-high] / [+high] [+high]
+/& in dissyllabic stems
 + Merger of short and long vowels creates new tonal patterns
 + The explanation, involving tone doubling and the introduction of a respiratory accent, is not very clear
 - *k / tʃ / _ [i e]
