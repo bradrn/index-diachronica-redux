@@ -179,6 +179,11 @@
   ordering: 2
   exhaustivity: 3
   detail: 2
+  consensus: 3
+  transcription: 2
+  conventions:
+    - sym: "*i̧"
+      ipa:
         - i̝
         - i̘
       explicit: false

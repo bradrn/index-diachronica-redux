@@ -31,11 +31,11 @@ Bantu
 + Ordering unclear
 - *dʒ / *ʒ
 - [+high +long] [-high] / [+high -long] [-high]
-/& in dissyllabic stems
+/& in disyllabic stems
 - [-high +long] [-high] / [+high -long] [+high]
-/& in dissyllabic stems
+/& in disyllabic stems
 - [+high -long] [-high] / [+high] [+high]
-/& in dissyllabic stems
+/& in disyllabic stems
 + Merger of short and long vowels creates new tonal patterns
 + The explanation, involving tone doubling and the introduction of a respiratory accent, is not very clear
 - *k / tʃ / _ [i e]
