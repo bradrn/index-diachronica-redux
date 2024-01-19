@@ -15,26 +15,26 @@ Bantu
 - [*p̱ *t *k] / [{p s̪} t̪] / _ [*i̧ *u̧]
 - *ʃ / s̪ / _ *i̧
 + Inferred from modern reflexes
-- [*ḇ *ḏ *g̱] / {*ḇ z̪} {*ḏ z̪} {*g̱ z̪} / _ [*i̧ *u̧]
+- [*ḇ *ḏ *g̱] / [{*ḇ *z̪} {*ḏ *z̪} {*g̱ *z̪}] / _ [*i̧ *u̧]
 + ‘no reflex discovered’ for '*ji̧' and '*ju̧'
 - [*m *n] / n̪ / _ *i̧
 + ‘no reflex discovered’ for '*mu̧' and '*nu̧'
 - [*ᵐb *ⁿd *ᵑg] / ⁿd̪ / _ *i̧
-- {p s̪} / s̪
+- p s̪ / s̪
 - t̪ / s̪ / _ *i̧
-- {*ḇ z̪} {*ḏ z̪} {*g̱ z̪} / z̪
+- [{*ḇ *z̪} {*ḏ *z̪} {*g̱ *z̪}] / z̪
 - [*i̧ *u̧] / [*ɪ u]
 - *ɪ / e
 + Merger with '*e'
 - *g̱ / y
-- [*ḇ *g̱] / w _ [*o *u]
+- [*ḇ *g̱] / w / _ [*o *u]
 + Ordering unclear
 - *dʒ / *ʒ
-- [+high +long] [-high] / [+high -long] [-high]
+- [V +high +long] [V +low] / [V +high -long] [V +low]
 /& in disyllabic stems
-- [-high +long] [-high] / [+high -long] [+high]
+- [V +low +long] [V +low] / [V +high -long] [V +high]
 /& in disyllabic stems
-- [+high -long] [-high] / [+high] [+high]
+- [V +high -long] [V +low] / [V +high] [V +high]
 /& in disyllabic stems
 + Merger of short and long vowels creates new tonal patterns
 + The explanation, involving tone doubling and the introduction of a respiratory accent, is not very clear

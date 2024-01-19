@@ -292,7 +292,9 @@
       ipa:
         - θ
       explicit: true
+      notes: []
     - sym: "z̪"
       ipa:
         - ð
       explicit: true
+      notes: []
