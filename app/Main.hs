@@ -44,14 +44,8 @@ main = do
                 pandoc <- readBibLaTeX def bibfile
                 getReferences Nothing pandoc
 
-        os = CiteprocOptions
-            { linkCitations = False
-            , linkBibliography = True
-            }
-
     stylesheet <- TIO.readFile "chicago-author-date.csl"
     Right style <- parseStyle (const $ pure mempty) stylesheet
-    let bib = resultBibliography $ citeproc os style Nothing refs []
 
     rds' <- decodeFileEither @[ReferenceData] "data/references-data.yaml"
     rds <- case rds' of
@@ -67,7 +61,7 @@ main = do
         parsed <- parseChanges file <$> TIO.readFile ("data/changes" </> file)
         case parsed of
             Right scs -> do
-                let page = genPage ls lis bib rds scs
+                let page = genPage ls lis refs style rds scs
                     filename = file -<.> "html"
                 BL.writeFile (subdir </> filename) $ renderBS page
                 pure (sc_title scs, pack filename)
