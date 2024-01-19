@@ -2,6 +2,7 @@
 
 module Main where
 
+import Brassica.SoundChange.Parse (errorBundlePretty)
 import Control.Monad.Except (runExceptT)
 import Control.Monad.State.Strict (runState, runStateT)
 import Citeproc (citeproc, parseStyle)
@@ -10,12 +11,13 @@ import Data.Csv (decodeByName)
 import Data.Text (pack)
 import Data.Time
 import Data.Traversable (for)
-import Data.Yaml (decodeFileEither, decodeFileThrow)
+import Data.Yaml (decodeFileEither, decodeFileThrow, prettyPrintParseException)
 import Lucid (renderBS)
 import Text.Pandoc (def, unPandocPure)
 import Text.Pandoc.Citeproc (getReferences)
 import Text.Pandoc.Readers.BibTeX (readBibLaTeX)
 import System.Directory (listDirectory)
+import System.Exit (exitFailure)
 import System.FilePath ((</>), (-<.>))
 
 import qualified Data.ByteString.Lazy as BL
@@ -28,7 +30,13 @@ import ID.Schemata
 main :: IO ()
 main = do
     Right (_, ls) <- decodeByName @Languoid <$> BL.readFile "data/languoids.csv"
-    lis <- decodeFileThrow "data/langinfo.yaml"
+    lis' <- decodeFileEither "data/langinfo.yaml"
+    lis <- case lis' of
+            Left err -> do
+                putStrLn "Error in langinfo.yaml:"
+                putStrLn $ prettyPrintParseException err
+                exitFailure
+            Right val -> pure val
 
     bibfile <- TIO.readFile "data/references.bib"
     let Right refs = fst $ fst $
@@ -46,17 +54,25 @@ main = do
     let bib = resultBibliography $ citeproc os style Nothing refs []
 
     rds' <- decodeFileEither @[ReferenceData] "data/references-data.yaml"
-    let rds = case rds' of
-            Left err -> error $ show err
-            Right val -> val
+    rds <- case rds' of
+            Left err -> do
+                putStrLn "Error in references-data.yaml:"
+                putStrLn $ prettyPrintParseException err
+                exitFailure
+            Right val -> pure val
 
     changefiles <- listDirectory "data/changes"
     let subdir = "site"
     files <- for changefiles $ \file -> do
-        Right scs <- parseChanges file <$> TIO.readFile ("data/changes" </> file)
-        let page = genPage ls lis bib rds scs
-            filename = file -<.> "html"
-        BL.writeFile (subdir </> filename) $ renderBS page
-        pure (sc_title scs, pack filename)
+        parsed <- parseChanges file <$> TIO.readFile ("data/changes" </> file)
+        case parsed of
+            Right scs -> do
+                let page = genPage ls lis bib rds scs
+                    filename = file -<.> "html"
+                BL.writeFile (subdir </> filename) $ renderBS page
+                pure (sc_title scs, pack filename)
+            Left err -> do
+                putStrLn $ errorBundlePretty err
+                exitFailure
     time <- getCurrentTime
     BL.writeFile (subdir </> "index.html") $ renderBS $ genIndex time files

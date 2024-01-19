@@ -200,7 +200,7 @@ genLexemes convs ls_ = applySpacing " " $ go <$> ls_
         <> renderG' g
         <> foldMap renderMod gs
         <> "}"
-    renderSpec (CategorySpec _) = error "genLexemes: meaningless category"
+    renderSpec (CategorySpec s) = error $ "genLexemes: meaningless category: " ++ show s
 
     renderG' :: Either Grapheme [Lexeme CategorySpec a] -> Html ()
     renderG' = either renderG (genLexemes convs)
