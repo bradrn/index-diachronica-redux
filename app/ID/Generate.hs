@@ -15,6 +15,7 @@ import Brassica.SoundChange.Types
     , CategorySpec(..)
     , CategoryModification (..)
     )
+import Citeproc (Val(TextVal), lookupVariable, Reference(..), CiteprocOutput, resultBibliography, Style, citeproc, CiteprocOptions (..), unItemId)
 import Lucid hiding (for_)
 import Data.Foldable (for_)
 import Data.List (intersperse, find, sortOn)
@@ -110,10 +111,6 @@ genReference doi ref rd = div_ [class_ "box reference", id_ (r_source rd)] $ mco
         i_ "(where different to IPA)" <> genConventions (r_conventions rd)
     ]
   where
-    -- doi = case lookupVariable "DOI" r of
-    --     Just (TextVal t) -> t
-    --     x -> error $ "genReference: found for DOI: " ++ show x
-
     stars :: Int -> Html ()
     stars 3 = "★★★"
     stars 2 = "★★☆"
@@ -200,7 +197,7 @@ genLexemes convs ls_ = applySpacing " " $ go <$> ls_
         <> renderG' g
         <> foldMap renderMod gs
         <> "}"
-    renderSpec (CategorySpec _) = error "genLexemes: meaningless category"
+    renderSpec (CategorySpec s) = error $ "genLexemes: meaningless category: " ++ show s
 
     renderG' :: Either Grapheme [Lexeme CategorySpec a] -> Html ()
     renderG' = either renderG (genLexemes convs)
@@ -321,24 +318,38 @@ genContents ls = ul_ [class_ "contents"] . foldMap (li_ . genLine)
 
 findAndGenReference
     :: [(Text, Inlines)]
+    -> [Reference Inlines]
     -> [ReferenceData]
     -> Text
     -> Html ()
-findAndGenReference refs rds ident =
-    let bibentry' = lookup ident refs
+findAndGenReference bib refs rds ident =
+    let bibentry' = lookup ident bib
+        Just ref = find ((==ident) . unItemId . referenceId) refs
         refdata' = find ((==ident) . r_source) rds
     in case (bibentry', refdata') of
-        (Just bibentry, Just refdata) -> genReference ident bibentry refdata
+        (Just bibentry, Just refdata) -> genReference (doi ref) bibentry refdata
         _ -> error $ unpack $ "Could not find reference: " <> ident
+  where
+    doi :: CiteprocOutput a => Reference a -> Text
+    doi r = case lookupVariable "DOI" r of
+        Just (TextVal t) -> t
+        Nothing -> "(none)"
+        x -> error $ "found for DOI: " ++ show x
 
 genPage
     :: V.Vector Languoid
     -> [LangInfo]
-    -> [(Text, Inlines)]
+    -> [Reference Inlines]
+    -> Style Inlines
     -> [ReferenceData]
     -> SoundChanges
     -> Html ()
-genPage ls lis refs rds sc = html_ $ do
+genPage ls lis refs style rds sc = html_ $ do
+    let os = CiteprocOptions
+            { linkCitations = False
+            , linkBibliography = True
+            }
+        bib = resultBibliography $ citeproc os style Nothing refs []
     head_ $ do
         meta_ [charset_ "utf-8"]
         title_ $ toHtml $ "Sound changes: " <> sc_title sc
@@ -349,7 +360,7 @@ genPage ls lis refs rds sc = html_ $ do
         h2_ "Contents"
         genContents ls contents
         h2_ "Sources"
-        foldMap (findAndGenReference refs rds) refset
+        foldMap (findAndGenReference bib refs rds) refset
         h2_ "Changes"
         rendered
 
