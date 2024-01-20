@@ -1,0 +1,47 @@
+Bantu
+
+# cban here
+@mohlig_reference_2008
+
+- *p / *p̱
+- [*c *ⁿc] / *ʃ
+- [*b *d *g] / [*ḇ *ḏ *g̱]
+
+# here oher
+@mohlig_reference_2008
+
+- [*ᵐp *ⁿt *ᵑk] / [*ᵐb *ⁿd *ᵑg]
++ merger with '*ᵐb *ⁿd *ᵑg'
+- [*p̱ *t *k] / [{p s̪} t̪ t̪] / _ [*i̧ *u̧]
+- *ʃ / s̪ / _ *i̧
++ Inferred from modern reflexes
+- [*ḇ *ḏ *g̱] / [{*ḇ *z̪} {*ḏ *z̪} {*g̱ *z̪}] / _ [*i̧ *u̧]
++ ‘no reflex discovered’ for '*ji̧' and '*ju̧'
+- [*m *n] / n̪ / _ *i̧
++ ‘no reflex discovered’ for '*mu̧' and '*nu̧'
+- [*ᵐb *ⁿd *ᵑg] / ⁿd̪ / _ *i̧
+- p s̪ / s̪
+- t̪ / s̪ / _ *i̧
+- [{*ḇ *z̪} {*ḏ *z̪} {*g̱ *z̪}] / z̪
+- [*i̧ *u̧] / [*ɪ u]
+- *ɪ / e
++ Merger with '*e'
+- *g̱ / y
+- [*ḇ *g̱] / w / _ [*o *u]
++ Ordering unclear
+- *dʒ / *ʒ
+- [V +high +long] (C) (C) [V +low] / [V +high -long] (C) (C) [V +low]
+/& in disyllabic stems
+- [V +low +long] (C) (C) [V +low] / [V +high -long] (C) (C) [V +high]
+/& in disyllabic stems
+- [V +high -long] (C) (C) [V +low] / [V +high] (C) (C) [V +high]
+/& in disyllabic stems
++ Merger of short and long vowels creates new tonal patterns
++ The explanation, involving tone doubling and the introduction of a respiratory accent, is not very clear
+- *k / tʃ / _ [i e]
++ Morphophonological processes subsequently create a new prenasalised palatal 'ⁿdʒ'
+- [*ʃ *ʒ] / [h j]
+- h / ɦ
++ ‘shows a tendency to become a voiced approximant 'ɦ'’
+- y / 
++ ‘with a tendency towards zero’
