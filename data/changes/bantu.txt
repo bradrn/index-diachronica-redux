@@ -12,7 +12,7 @@ Bantu
 
 - [*ᵐp *ⁿt *ᵑk] / [*ᵐb *ⁿd *ᵑg]
 + merger with '*ᵐb *ⁿd *ᵑg'
-- [*p̱ *t *k] / [{p s̪} t̪] / _ [*i̧ *u̧]
+- [*p̱ *t *k] / [{p s̪} t̪ t̪] / _ [*i̧ *u̧]
 - *ʃ / s̪ / _ *i̧
 + Inferred from modern reflexes
 - [*ḇ *ḏ *g̱] / [{*ḇ *z̪} {*ḏ *z̪} {*g̱ *z̪}] / _ [*i̧ *u̧]
@@ -30,11 +30,11 @@ Bantu
 - [*ḇ *g̱] / w / _ [*o *u]
 + Ordering unclear
 - *dʒ / *ʒ
-- [V +high +long] [V +low] / [V +high -long] [V +low]
+- [V +high +long] (C) (C) [V +low] / [V +high -long] (C) (C) [V +low]
 /& in disyllabic stems
-- [V +low +long] [V +low] / [V +high -long] [V +high]
+- [V +low +long] (C) (C) [V +low] / [V +high -long] (C) (C) [V +high]
 /& in disyllabic stems
-- [V +high -long] [V +low] / [V +high] [V +high]
+- [V +high -long] (C) (C) [V +low] / [V +high] (C) (C) [V +high]
 /& in disyllabic stems
 + Merger of short and long vowels creates new tonal patterns
 + The explanation, involving tone doubling and the introduction of a respiratory accent, is not very clear
