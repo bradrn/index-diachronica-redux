@@ -298,3 +298,68 @@
         - ð
       explicit: true
       notes: []
+- source: blustPalauanHistoricalPhonology2009
+  transcriber: bradrn
+  reviewer:
+  ordering: 2
+  exhaustivity: 2
+  detail: 2
+  consensus: 3
+  transcription: 3
+  conventions:
+    - sym: "y"
+      ipa:
+        - j
+      explicit: true
+      notes:
+        - Listed alongside semivowel /w/
+    - sym: "*ñ"
+      ipa:
+        - ɲ
+      explicit: false
+      notes: []
+    - sym: "*c"
+      ipa:
+        - t͡ʃ
+        - c͡ɕ
+      explicit: false
+      notes:
+        - ‘was a voiceless palatal affricate’
+        - ‘No plausible etymologies that contain PMP *c have been found in Palauan.’
+    - sym: "*z"
+      ipa:
+        - d͡ʒ
+        - ɟ͡ʑ
+      explicit: false
+      notes:
+        - ‘was a voiced palatal affricate’
+    - sym: "*j"
+      ipa:
+        - ɡʲ
+      explicit: true
+      notes:
+        - ‘probably a palatalized voiced velar stop [gʸ]’
+    - sym: "*D"
+      ipa:
+        - ɖ
+      explicit: true
+      notes:
+        - ‘a voiced retroflex stop that occurred only word-finally’
+    - sym: "*r"
+      ipa:
+        - ɾ
+      explicit: true
+      notes:
+        - ‘an alveolar flap’
+    - sym: "*R"
+      ipa:
+        - r
+      explicit: true
+      notes:
+        - ‘an alveolar trill that became uvular in many daughter languages’
+    - sym: "*e"
+      ipa:
+        - ə
+      explicit: true
+      notes:
+        - ‘the schwa’

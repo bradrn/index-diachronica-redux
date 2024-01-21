@@ -1,5 +1,69 @@
 Austronesian
 
+# pmpl blau
+@blustPalauanHistoricalPhonology2009
+
+- *h /
+- / *ŋ / # _ V
+- *y / r
+- *l / y
+- [i u] / [i u] [y w] / _ V
+- [{*a *y} {*a *w} {*u *y}] / [*e *o *i] / _#
+- / *e / C _ C
+/& ‘In some cases … to break up a medial consonant cluster’
+- [V -Stress] / ə
+- ə / / _#
++ also occurred ‘in some nonfinal environments’, but which are unclear
+- [*e +Stress] / [o e]
++ Outcome is unpredictable, though more examples are listed with 'e' than with 'o'
++ Three words show unstressed '*e' → 'e'
+- *e / / #_
++ ‘although the evidence for this is limited’
+- *p / w / _ // _ *a
+- *p *a / o / #_
++ ‘presumably through '*wa-' ’
++ ‘In one known case, '*pa-' is reflected as 'wa-' ’
+- [{*a *p} {*e *p} {*p *a}] / o / _# / _C
++ ‘presumably through '*aw-' ’ for the first two
++ condition not entirely clear: rule applied to ‘final sequences '*ap' and '*ep' ’, but examples show that ‘final’ presumably includes syllable-finality
++ ‘A single known example’ for '*-pa'
+- *ə / / _ [V y w]
++ Inferred from text: ‘pre-Palauan did not allow schwa immediately before a vowel or glide, and where this came about […] the schwa was absorbed’
+- *t / ð     ; // # b _ / [+Stop +Voiced] _ #  TODO: waiting on multiple exception support
+/& unless ‘Immediately following initial 'b' , or following a voiceless stop in final position’
+- *q / / # *m *a *ŋ _
++ here 'məŋ-' is the active verb prefix
+- *q / ʔ
++ ‘… this sound was written as 'ch' by Walleser (1911), who reported that it was then a voiceless velar fricative similar to standard German 'ch' when not adjacent to a high vowel. All more recent writers have reported that it is a glottal stop’
+- [*d *D] / r
++ ‘A single etymology is available for PMP '*-D' ’
+- *z / r
+- r l / l l
+- *j / k / _ C #
+- *j / s
+- *j / l / _ #
++ ‘In a single known case’
+- *n / ŋ / _ C
+/& when morpheme-final
++ ‘In four plausible etymologies’
+- *n / l
+- *ñ / [l ŋ]
++ Normally became 'l' , but ‘Two comparisons suggest contrarily that '*ñ' became Palauan 'ŋ' ’
+- *ŋ / / C _ #
++ These cases were originally word-final but ‘came to be postconsonantal due to loss of the previous unstressed vowel’
+- l / r / _ r
+/+ ‘in the same or an adjacent syllable’
+- *R / r / _ [t d ð n s r l]
+/& ‘Immediately preceding a dental consonant’
+- *s / ð / _ V *s / *s V _
++ inferred from examples
++ occurred to avoid a sequence '*tV(C)s' or 'sV(C)t'
+- *s / t
+/& unless it would form a sequence '*tV(C)s' or 'sV(C)t'
+- *R / s
+- / ŋ / V _ #
++ irregular in loanwords
+
 # poly tngc
 @biggsHistoryPolynesianPhonology2015
 
