@@ -15,8 +15,10 @@ import Brassica.SoundChange.Types
     , CategorySpec(..)
     , CategoryModification (..)
     )
+import Control.Monad.State.Strict (State, evalState, MonadState (..))
 import Citeproc (Val(TextVal), lookupVariable, Reference(..), CiteprocOutput, resultBibliography, Style, citeproc, CiteprocOptions (..), unItemId)
 import Lucid hiding (for_)
+import Lucid.Base (commuteHtmlT2)
 import Data.Foldable (for_)
 import Data.List (intersperse, find, sortOn)
 import Data.Maybe (isNothing, fromJust)
@@ -32,6 +34,7 @@ import qualified Data.Text as Text
 import qualified Data.Vector as V
 
 import ID.Schemata
+import Data.Char (isUpper)
 
 unlinesHtml :: [Html ()] -> Html ()
 unlinesHtml = mconcat . intersperse (br_ [])
@@ -173,44 +176,62 @@ applySpacing __ = extract . go
     go (s:Empty:ss) = go (s:ss)
     go (Empty:s:ss) = go (s:ss)
 
-genLexemes :: [Convention] -> [Lexeme CategorySpec a] -> Html ()
-genLexemes _ [] = "∅"
-genLexemes convs ls_ = applySpacing " " $ go <$> ls_
+type GenM = HtmlT (State Int)
+
+genLexemes :: Bool -> [Convention] -> [Lexeme CategorySpec a] -> Html ()
+genLexemes _ _ [] = "∅"
+genLexemes needsSubscripts convs ls_ = evalState (commuteHtmlT2 $ genLexemes' ls_) 1
   where
-    go :: Lexeme CategorySpec a -> Spacing (Html ())
+    genLexemes' :: [Lexeme CategorySpec a] -> GenM ()
+    genLexemes' ls = applySpacing " " $ go <$> ls
+
+    go :: Lexeme CategorySpec a -> Spacing (GenM ())
     go (Grapheme g) = Both $ renderG g
-    go (Category s) = Both $ renderSpec s
-    go (Optional ls) = Both $ toHtml $ "(" <> genLexemes convs ls <> ")"
+    go (Category s) = Both $ subscript $ renderSpec s
+    go (Optional ls) = Both $ "(" <> genLexemes' ls <> ")"
     go Metathesis = Both $ span_ [class_ "comment"] "reversed"
     go Geminate = After "ː"
     go (Wildcard l) = ("… " <>) <$> go l
     go (Kleene l) = (<>"…") <$> go l
     go Discard = Empty
-    -- not fully congruent with brassica’s semantics, but most
-    -- intuitive in this context
-    go (Backreference n s) = Both $ renderSpec s <> sub_ (toHtml $ show n)
+    go (Backreference n s) = Both $ subscriptWith n $ renderSpec s
     go (Multiple gs) = go (Category gs)
 
+    subscript :: GenM () -> GenM ()
+    subscript h =
+        if needsSubscripts
+            then do
+                n <- get
+                put (n+1)
+                subscriptWith n h
+            else h
+
+    subscriptWith :: Int -> GenM () -> GenM ()
+    subscriptWith n h = h <> sub_ (toHtml $ show n)
+
+    renderSpec :: CategorySpec a -> GenM ()
     renderSpec (MustInline g) = toHtml g
-    renderSpec (CategorySpec ((Union,g):gs)) = toHtml $
+    renderSpec (CategorySpec ((Union,g):gs)) =
         "{"
         <> renderG' g
         <> foldMap renderMod gs
         <> "}"
     renderSpec (CategorySpec s) = error $ "genLexemes: meaningless category: " ++ show s
 
-    renderG' :: Either Grapheme [Lexeme CategorySpec a] -> Html ()
-    renderG' = either renderG (genLexemes convs)
+    renderG' :: Either Grapheme [Lexeme CategorySpec a] -> GenM ()
+    renderG' = either renderG genLexemes'
 
-    renderMod :: (CategoryModification, Either Grapheme [Lexeme CategorySpec a]) -> Html ()
+    renderMod :: (CategoryModification, Either Grapheme [Lexeme CategorySpec a]) -> GenM ()
     renderMod (Union, g) = ", " <> renderG' g
     renderMod (Intersect, g) = "+" <> renderG' g
     renderMod (Subtract, g) = "-" <> renderG' g
 
-    renderG :: Grapheme -> Html ()
+    renderG :: Grapheme -> GenM ()
     renderG (GMulti cs)
         | Just Convention{c_ipa} <- find (c_sym ==& pack cs) convs
         = abbr_ [title_ $ genIPA c_ipa] $ toHtml cs
+        | (c:_) <- cs, isUpper c
+        = subscript $ toHtml cs
         | otherwise = toHtml cs
     renderG GBoundary = "#"
 
@@ -236,17 +257,26 @@ genChange convs c = addNotes $ case ch_overrides c of
     r = ch_rule c
 
     mkRuleWith env = mconcat
-        [ genLexemes convs (target r)
+        [ genLexemes needsBackref convs (target r)
         , " → "
-        , genLexemes convs (replacement r)
+        , genLexemes needsBackref convs (replacement r)
         , env
         , if sporadic $ flags r then " (" <> i_ "sporadic" <> ")" else mempty
         ]
 
-    fillHole ([],[]) = "_"
-    fillHole (e1,[]) = genLexemes convs e1 <> " _"
-    fillHole ([],e2) = "_ " <> genLexemes convs e2
-    fillHole (e1,e2) = genLexemes convs e1 <> " _ " <> genLexemes convs e2
+    needsBackref = any isBackref (target r) || any isBackref (replacement r)
+
+    fillHole (e1, e2) =
+        let b = any isBackref e1 || any isBackref e2
+        in case (e1, e2) of
+             ([],[]) -> "_"
+             (_ ,[]) -> genLexemes b convs e1 <> " _"
+             ([],_ ) -> "_ " <> genLexemes b convs e2
+             (_ ,_ ) -> genLexemes b convs e1 <> " b " <> genLexemes b convs e2
+
+    isBackref :: Lexeme c a -> Bool
+    isBackref (Backreference _ _) = True
+    isBackref _ = False
 
     addNotes :: Html () -> Html ()
     addNotes = case ch_notes c of

@@ -416,7 +416,7 @@ Austronesian
 # cepl rapa
 @davletshinConditionedSoundChanges2016
 
-- @1 C V @2 C V / @2 C V @1 C V
+- C V C V / @3 C @2 V @1 C @4 V
 /& irregularly, in polymoraic words
 
 - r / ʔ / V (C) V _ V #
