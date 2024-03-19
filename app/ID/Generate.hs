@@ -183,6 +183,7 @@ genLexemes _ _ [] = "∅"
 genLexemes needsSubscripts convs ls_ = evalState (commuteHtmlT2 $ genLexemes' ls_) 1
   where
     genLexemes' :: [Lexeme CategorySpec a] -> GenM ()
+    genLexemes' [] = "∅"
     genLexemes' ls = applySpacing " " $ go <$> ls
 
     go :: Lexeme CategorySpec a -> Spacing (GenM ())
