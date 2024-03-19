@@ -142,20 +142,28 @@ genSuprasegmentals ss = table_ [class_ "suprasegmentals"] $ header <> body
 sourceLink :: Text -> Html ()
 sourceLink s = a_ [href_ $ "#" <> s] $ toHtml $ "[" <> s <> "]"
 
-genLangInfo :: V.Vector Languoid -> LangInfo -> Html ()
-genLangInfo ls l = foldMap go (l_inventory l)
+genLangInfo :: [ReferenceData] -> V.Vector Languoid -> LangInfo -> Html ()
+genLangInfo rds ls l = foldMap go (l_inventory l)
   where
     go :: Inventory -> Html ()
-    go i = div_ [class_ "box lang", id_ (l_root l)] $ mconcat
-        [ h3_ $ toHtml $ lookupByID ls (l_root l)
-        , section "Source" $ sourceLink $ i_source i
-        , section "Consonant inventory" $ toTable (i_consonants i) <> genComments (i_cnotes i)
-        , section "Vowel inventory" $ toTable (i_vowels i) <> genComments (i_cnotes i)
-        , section "Suprasegmentals" $ genSuprasegmentals (i_supras i)
-        ]
+    go i =
+        let convs = r_conventions $ fromJust $ find (r_source ==& i_source i) rds
+        in div_ [class_ "box lang", id_ (l_root l)] $ mconcat
+            [ h3_ $ toHtml $ lookupByID ls (l_root l)
+            , section "Source" $ sourceLink $ i_source i
+            , section "Consonant inventory" $ toTable convs (i_consonants i) <> genComments (i_cnotes i)
+            , section "Vowel inventory" $ toTable convs (i_vowels i) <> genComments (i_cnotes i)
+            , section "Suprasegmentals" $ genSuprasegmentals (i_supras i)
+            ]
 
-    toTable :: [[Text]] -> Html ()
-    toTable = table_ [class_ "phonemes"] . foldMap (tr_ . foldMap (td_ . toHtml))
+    toTable :: [Convention] -> [[Text]] -> Html ()
+    toTable convs = table_ [class_ "phonemes"] . foldMap (tr_ . foldMap (td_ . fromConvention convs))
+
+    fromConvention :: [Convention] -> Text -> Html ()
+    fromConvention convs cs
+        | Just Convention{c_ipa} <- find (c_sym ==& cs) convs
+        = abbr_ [title_ $ genIPA c_ipa] $ toHtml cs
+        | otherwise = toHtml cs
 
 data Spacing a = Both a | After a | Empty
     deriving (Show, Functor)
@@ -324,7 +332,7 @@ genSoundChanges rds ls lis es = foldMap genTree roots
 
     genLangInfo' :: LangInfo -> (Html (), [ContentsLine], Set Text)
     genLangInfo' li =
-        ( genLangInfo ls li
+        ( genLangInfo rds ls li
         , [InfoLine $ l_root li]
         , Set.fromList $ i_source <$> l_inventory li
         )
