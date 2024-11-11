@@ -3,12 +3,14 @@
 module Main where
 
 import Brassica.SoundChange.Parse (errorBundlePretty)
+import Control.Monad (when)
 import Control.Monad.Except (runExceptT)
 import Control.Monad.State.Strict (runState, runStateT)
 import Citeproc (citeproc, parseStyle)
 import Citeproc.Types (CiteprocOptions(..), Result (resultBibliography))
 import Data.Csv (decodeByName)
 import Data.Text (pack)
+import Data.Text.Encoding (encodeUtf8)
 import Data.Time
 import Data.Traversable (for)
 import Data.Yaml (decodeFileEither, decodeFileThrow, prettyPrintParseException)
@@ -17,18 +19,22 @@ import Text.Pandoc (def, unPandocPure)
 import Text.Pandoc.Citeproc (getReferences)
 import Text.Pandoc.Readers.BibTeX (readBibLaTeX)
 import System.Directory (listDirectory)
+import System.Environment (getArgs)
 import System.Exit (exitFailure)
 import System.FilePath ((</>), (-<.>))
 
 import qualified Data.ByteString.Lazy as BL
 import qualified Data.Text.IO as TIO
 
+import ID.Analyse
 import ID.Generate
 import ID.Parse
 import ID.Schemata
 
 main :: IO ()
 main = do
+    command <- getArgs
+
     Right (_, ls) <- decodeByName @Languoid <$> BL.readFile "data/languoids.csv"
     lis' <- decodeFileEither "data/langinfo.yaml"
     lis <- case lis' of
@@ -60,13 +66,20 @@ main = do
     files <- for changefiles $ \file -> do
         parsed <- parseChanges file <$> TIO.readFile ("data/changes" </> file)
         case parsed of
-            Right scs -> do
-                let page = genPage ls lis refs style rds scs
-                    filename = file -<.> "html"
-                BL.writeFile (subdir </> filename) $ renderBS page
-                pure (sc_title scs, pack filename)
+            Right scs -> case command of
+                [] -> do
+                    let page = genPage ls lis refs style rds scs
+                        filename = file -<.> "html"
+                    BL.writeFile (subdir </> filename) $ renderBS page
+                    pure (sc_title scs, pack filename)
+                ["transitions"] -> do
+                    let transitions = genTransitions rds scs
+                        filename = file -<.> "csv"
+                    BL.writeFile (subdir </> filename) $ BL.fromStrict $ encodeUtf8 transitions
+                    pure (sc_title scs, pack filename)
             Left err -> do
                 putStrLn $ errorBundlePretty err
                 exitFailure
     time <- getCurrentTime
-    BL.writeFile (subdir </> "index.html") $ renderBS $ genIndex time files
+    when (null command) $
+       BL.writeFile (subdir </> "index.html") $ renderBS $ genIndex time files

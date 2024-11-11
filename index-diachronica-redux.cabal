@@ -19,7 +19,8 @@ common warnings
 executable index-diachronica-redux
     import:           warnings
     main-is:          Main.hs
-    other-modules:    ID.Generate
+    other-modules:    ID.Analyse
+                    , ID.Generate
                     , ID.Parse
                     , ID.Schemata
     -- other-extensions:
