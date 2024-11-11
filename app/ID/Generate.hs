@@ -9,20 +9,21 @@ module ID.Generate (genPage, genIndex) where
 
 import Brassica.SoundChange.Types
     ( Lexeme(..)
-    , Grapheme(..)
+    , Grapheme
     , Rule(..)
     , Flags(..)
     , CategorySpec(..)
-    , CategoryModification (..)
+    , CategoryModification (..), Sporadicity (ApplyAlways), Environment
     )
-import Control.Monad.State.Strict (State, evalState, MonadState (..))
+import Control.Monad.State.Strict (State, evalState, gets, modify)
 import Citeproc (Val(TextVal), lookupVariable, Reference(..), CiteprocOutput, resultBibliography, Style, citeproc, CiteprocOptions (..), unItemId)
 import Lucid hiding (for_)
 import Lucid.Base (commuteHtmlT2)
 import Data.Foldable (for_)
 import Data.List (intersperse, find, sortOn)
-import Data.Maybe (isNothing, fromJust)
+import Data.Maybe (fromJust)
 import Data.Set (Set)
+import Data.Map.Strict (Map)
 import Data.Text (Text, unpack, pack)
 import Data.Time (UTCTime)
 import Data.Time.Format.ISO8601 (ISO8601(iso8601Format), formatShow)
@@ -30,11 +31,11 @@ import Text.Pandoc ()
 import Text.Pandoc.Builder (Inline(..), Inlines, QuoteType(..))
 
 import qualified Data.Set as Set
+import qualified Data.Map.Strict as Map
 import qualified Data.Text as Text
 import qualified Data.Vector as V
 
 import ID.Schemata
-import Data.Char (isUpper)
 
 unlinesHtml :: [Html ()] -> Html ()
 unlinesHtml = mconcat . intersperse (br_ [])
@@ -184,11 +185,11 @@ applySpacing __ = extract . go
     go (s:Empty:ss) = go (s:ss)
     go (Empty:s:ss) = go (s:ss)
 
-type GenM = HtmlT (State Int)
+type GenM = HtmlT (State (Map String Int))
 
-genLexemes :: Bool -> [Convention] -> [Lexeme CategorySpec a] -> Html ()
-genLexemes _ _ [] = "∅"
-genLexemes needsSubscripts convs ls_ = evalState (commuteHtmlT2 $ genLexemes' ls_) 1
+genLexemes :: [Convention] -> [Lexeme CategorySpec a] -> State (Map String Int) (Html ())
+genLexemes _ [] = pure "∅"
+genLexemes convs ls_ = commuteHtmlT2 $ genLexemes' ls_
   where
     genLexemes' :: [Lexeme CategorySpec a] -> GenM ()
     genLexemes' [] = "∅"
@@ -196,24 +197,39 @@ genLexemes needsSubscripts convs ls_ = evalState (commuteHtmlT2 $ genLexemes' ls
 
     go :: Lexeme CategorySpec a -> Spacing (GenM ())
     go (Grapheme g) = Both $ renderG g
-    go (Category s) = Both $ subscript $ renderSpec s
+    go (Category s) = Both $ renderSpec s
+    go (GreedyCategory s) = Both $ renderSpec s
     go (Optional ls) = Both $ "(" <> genLexemes' ls <> ")"
+    go (GreedyOptional ls) = Both $ "(" <> genLexemes' ls <> ")"
     go Metathesis = Both $ span_ [class_ "comment"] "reversed"
     go Geminate = After "ː"
     go (Wildcard l) = ("… " <>) <$> go l
     go (Kleene l) = (<>"…") <$> go l
     go Discard = Empty
-    go (Backreference n s) = Both $ subscriptWith n $ renderSpec s
+    go (Backreference (Right _) _) = error "Numeric backreferences not supported"
+    go (Backreference (Left i) s) = Both $ do
+        sub <- subscriptFor i
+        subscriptWith sub $ renderSpec s
     go (Multiple gs) = go (Category gs)
+    go (Feature neg name i _ l) = Both $ do
+        sub <- traverse subscriptFor i
+        -- not 100% correct but at least consistent with 'renderSpec'
+        "{" <> genLexemes' [l]
+            <> (if neg then "∓" else "±")
+            <> case sub of
+                    Just sub' -> subscriptWith sub' $ toHtml name
+                    Nothing -> toHtml name
+            <> "}"
+    go Autosegment {} = error "Autosegments should not appear"
 
-    subscript :: GenM () -> GenM ()
-    subscript h =
-        if needsSubscripts
-            then do
-                n <- get
-                put (n+1)
-                subscriptWith n h
-            else h
+    subscriptFor :: String -> GenM Int
+    subscriptFor i =
+        gets (Map.lookup i) >>= \case
+            Nothing -> do
+                sub <- gets (\m -> if Map.null m then 1 else 1 + maximum m)
+                modify $ Map.insert i sub
+                pure sub
+            Just sub -> pure sub
 
     subscriptWith :: Int -> GenM () -> GenM ()
     subscriptWith n h = h <> sub_ (toHtml $ show n)
@@ -222,75 +238,77 @@ genLexemes needsSubscripts convs ls_ = evalState (commuteHtmlT2 $ genLexemes' ls
     renderSpec (MustInline g) = toHtml g
     renderSpec (CategorySpec ((Union,g):gs)) =
         "{"
-        <> renderG' g
+        <> genLexemes' g
         <> foldMap renderMod gs
         <> "}"
     renderSpec (CategorySpec s) = error $ "genLexemes: meaningless category: " ++ show s
 
-    renderG' :: Either Grapheme [Lexeme CategorySpec a] -> GenM ()
-    renderG' = either renderG genLexemes'
-
-    renderMod :: (CategoryModification, Either Grapheme [Lexeme CategorySpec a]) -> GenM ()
-    renderMod (Union, g) = ", " <> renderG' g
-    renderMod (Intersect, g) = "+" <> renderG' g
-    renderMod (Subtract, g) = "-" <> renderG' g
+    renderMod :: (CategoryModification, [Lexeme CategorySpec a]) -> GenM ()
+    renderMod (Union, g) = ", " <> genLexemes' g
+    renderMod (Intersect, g) = "+" <> genLexemes' g
+    renderMod (Subtract, g) = "-" <> genLexemes' g
 
     renderG :: Grapheme -> GenM ()
-    renderG (GMulti cs)
+    renderG cs
         | Just Convention{c_ipa} <- find (c_sym ==& pack cs) convs
         = abbr_ [title_ $ genIPA c_ipa] $ toHtml cs
-        | (c:_) <- cs, isUpper c
-        = subscript $ toHtml cs
         | otherwise = toHtml cs
-    renderG GBoundary = "#"
 
 genChange :: [Convention] -> Change -> Html ()
 genChange convs c = addNotes $ case ch_overrides c of
-    NoOverride -> mkRuleWith $ mconcat
-        [ if null (environment r) then mempty else " / "
-        , mconcat $ intersperse ", " $ fillHole <$> environment r
-        , if isNothing (exception r) then mempty else " ! "
-        , maybe mempty fillHole $ exception r
+    NoOverride -> mconcat
+        [ ruleStart
+        , if null envs' then mempty else " / "
+        , mconcat $ intersperse ", " envs'
+        , case exception' of
+              Nothing -> mempty
+              Just e -> " ! " <> e
+        , sporadicity
         ]
     WholeRule t -> formatted t
-    WholeEnvironment t -> mkRuleWith $ " / " <> formatted t
-    ExtraConditions ts -> mkRuleWith $ mconcat
-        [ if null (environment r) then mempty else " / "
-        , mconcat $ intersperse ", " $
-            (fillHole <$> environment r) ++
-            (formatted <$> ts)
-        , if isNothing (exception r) then mempty else " ! "
-        , maybe mempty fillHole $ exception r
+    WholeEnvironment t -> mconcat
+        [ ruleStart
+        , " / " <> formatted t
+        , sporadicity
+        ]
+    ExtraConditions ts -> mconcat
+        [ ruleStart
+        , if null envs' then mempty else " / "
+        , mconcat $ intersperse ", " $ envs' ++ (formatted <$> ts)
+        , case exception' of
+              Nothing -> mempty
+              Just e -> " ! " <> e
+        , sporadicity
         ]
   where
-    r = ch_rule c
 
-    mkRuleWith env = mconcat
-        [ genLexemes needsBackref convs (target r)
-        , " → "
-        , genLexemes needsBackref convs (replacement r)
-        , env
-        , if sporadic $ flags r then " (" <> i_ "sporadic" <> ")" else mempty
-        ]
+    ruleStart = mconcat [target', " → ", replacement']
+    sporadicity
+        | sporadic (flags (ch_rule c)) /= ApplyAlways = " (" <> i_ "sporadic" <> ")"
+        | otherwise = mempty
 
-    needsBackref = any isBackref (target r) || any isBackref (replacement r)
+    (target', replacement', envs', exception') = flip evalState Map.empty $ do
+        let r = ch_rule c
+        t <- genLexemes convs $ target r
+        p <- genLexemes convs $ replacement r
+        es <- traverse fillHole (environment r)
+        ex <- traverse fillHole (exception r)
+        pure (t, p, es, ex)
 
-    fillHole (e1, e2) =
-        let b = any isBackref e1 || any isBackref e2
-        in case (e1, e2) of
-             ([],[]) -> "_"
-             (_ ,[]) -> genLexemes b convs e1 <> " _"
-             ([],_ ) -> "_ " <> genLexemes b convs e2
-             (_ ,_ ) -> genLexemes b convs e1 <> " b " <> genLexemes b convs e2
-
-    isBackref :: Lexeme c a -> Bool
-    isBackref (Backreference _ _) = True
-    isBackref _ = False
+    fillHole :: Environment CategorySpec -> State (Map String Int) (Html ())
+    fillHole ([], []) = pure "_"
+    fillHole (e1,[]) = (<> " _") <$> genLexemes convs e1
+    fillHole ([],e2) = ("_ " <>) <$> genLexemes convs e2
+    fillHole (e1,e2) = do
+        e1' <- genLexemes convs e1
+        e2' <- genLexemes convs e2
+        pure $ e1' <> " _ " <> e2'
 
     addNotes :: Html () -> Html ()
     addNotes = case ch_notes c of
         [] -> id
         ns -> flip mappend $ genComments ns
+
 
 lookupByID :: V.Vector Languoid -> Text -> Text
 lookupByID ls i = maybe i fst $ V.uncons (V.mapMaybe go ls)
