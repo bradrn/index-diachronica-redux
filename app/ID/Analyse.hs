@@ -1,3 +1,5 @@
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE GADTs #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -11,17 +13,15 @@ import Brassica.SoundChange.Types
        , Flags(..)
        , Direction(RTL)
        , CategoryModification (Union)
+       , LexemeType (..)
        )
-import Control.Applicative (liftA2)
 import Data.List (find)
-import Data.Set (Set)
 import Data.Text (Text, pack)
 import Data.Traversable (for)
 
-import qualified Data.Set as Set
-
 import ID.Schemata
-import Data.Maybe (fromJust)
+import Data.Maybe (fromJust, fromMaybe)
+import Control.Monad (zipWithM)
 import Debug.Trace
 
 (==&) :: Eq b => (a -> b) -> b -> (a -> Bool)
@@ -35,29 +35,58 @@ fromConvention convs cs
     | otherwise = [pack cs]
 
 transitions :: [Convention] -> Rule CategorySpec -> [(Text, Text)]
-transitions cs r =
+transitions cs r
+    | null (replacement r) = filter deduplicate $ fromMaybe [] $
+          go (target r) (repeat (Grapheme "∅"))
+    | length (target r) /= length (replacement r) = []
+    | otherwise =
     let rtl = applyDirection (flags r) == RTL
-        rTarget      = if rtl then reverse (target r) else target r
-        rReplacement = if rtl then reverse (replacement r) else replacement r
-    in case (traverse getGrapheme rTarget, traverse getGrapheme rReplacement) of
-        (Just rTarget', Just rReplacement') ->
-            zip rTarget' rReplacement' >>= many2many
-        _ -> []
+    in filter deduplicate $ fromMaybe [] $ go
+        (if rtl then reverse (target r) else target r)
+        (if rtl then reverse (replacement r) else replacement r)
   where
-    getGrapheme :: Lexeme CategorySpec a -> Maybe [[Text]]
-    getGrapheme (Grapheme g) = Just [fromConvention cs g]
-    getGrapheme (Category (MustInline c)) = Just [[pack c]]
-    getGrapheme (Category (CategorySpec cmes))
-        | (cms, ces) <- unzip cmes
-        , all (==Union) cms
-        = for ces $ \case [Grapheme g] -> Just (fromConvention cs g); _ -> Nothing
-    getGrapheme _ = Nothing
+    deduplicate = uncurry (/=)
 
-    many2many :: ([[a]], [[a]]) -> [(a, a)]
-    -- map all values in 'as' to all values in 'a'
-    many2many (as@(_:_), [a]) = (,) <$> concat as <*> a
-    many2many ([a], as@(_:_)) = (,) <$> a <*> concat as
-    many2many (as, as') = concat $ zipWith (liftA2 (,)) as as'
+    go :: [Lexeme CategorySpec 'Matched] -> [Lexeme CategorySpec 'Replacement] -> Maybe [(Text, Text)]
+    go rTarget rReplacement = concat <$> zipWithM matchLexemes rTarget rReplacement
+
+    matchLexemes :: Lexeme CategorySpec 'Matched -> Lexeme CategorySpec 'Replacement -> Maybe [(Text, Text)]
+    matchLexemes (Grapheme g) (Grapheme g') = Just $
+        (,) <$> fromConvention cs g <*> fromConvention cs g'
+    matchLexemes (Category (CategorySpec cmes)) (Category (CategorySpec cmes'))
+        | (cms, ces) <- unzip cmes
+        , (cms', ces') <- unzip cmes'
+        , length cmes == length cmes'
+        = if all (==Union) cms && all (==Union) cms'
+            then concat <$> zipWithM go ces ces'
+            else Just []
+    matchLexemes (GreedyCategory (CategorySpec cmes)) (Category (CategorySpec cmes'))
+        | (cms, ces) <- unzip cmes
+        , (cms', ces') <- unzip cmes'
+        , length cmes == length cmes'
+        = if all (==Union) cms && all (==Union) cms'
+            then concat <$> zipWithM go ces ces'
+            else Just []
+    matchLexemes (Category (CategorySpec cmes)) l
+        | (cms, ces) <- unzip cmes
+        = if all (==Union) cms
+            then fmap concat $ for ces $ \case [l'] -> matchLexemes l' l; _ -> Nothing
+            else Just []
+    matchLexemes (GreedyCategory (CategorySpec cmes)) l
+        | (cms, ces) <- unzip cmes
+        = if all (==Union) cms
+            then fmap concat $ for ces $ \case [l'] -> matchLexemes l' l; _ -> Nothing
+            else Just []
+    matchLexemes l (Category (CategorySpec cmes))
+        | (cms, ces) <- unzip cmes
+        = if all (==Union) cms
+            then fmap concat $ for ces $ \case [l'] -> matchLexemes l l'; _ -> Nothing
+            else Just []
+    matchLexemes (Category _) Discard = Just []
+    matchLexemes (GreedyCategory _) Discard = Just []
+    matchLexemes (Optional       ls) (Optional ls') = go ls ls'
+    matchLexemes (GreedyOptional ls) (Optional ls') = go ls ls'
+    matchLexemes _ _ = Nothing
 
 genTransitions :: [ReferenceData] -> SoundChanges -> Text
 genTransitions rds sc = foldMap genEdge $ sc_contents sc
