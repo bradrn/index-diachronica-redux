@@ -313,6 +313,12 @@
       explicit: true
       notes:
         - Listed alongside semivowel /w/
+    - sym: "*y"
+      ipa:
+        - j
+      explicit: true
+      notes:
+        - Listed alongside semivowel /w/
     - sym: "*ñ"
       ipa:
         - ɲ
